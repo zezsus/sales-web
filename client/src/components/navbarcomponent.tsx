@@ -49,7 +49,7 @@ const NavbarComponent = () => {
                 <SearchIcon />
               </SearchIconWrapper>
             </Search>
-            <IconButton>
+            <IconButton onClick={() => router.push("/cart")}>
               <AddShoppingCartIcon fontSize='large' color='secondary' />
               <NumberItem variant='body2' color='text.secondary'>
                 {numberItem !== 0 ? numberItem : ""}

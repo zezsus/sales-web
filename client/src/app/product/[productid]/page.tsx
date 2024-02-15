@@ -17,7 +17,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { setNumberItem } from "@/app/feature/products/productSlice";
+import { setBuyItem, setCartItem } from "@/app/feature/products/productSlice";
 import { useDispatch } from "react-redux";
 
 const ProductDetailPage = ({ params }: { params: { productid: number } }) => {
@@ -38,8 +38,13 @@ const ProductDetailPage = ({ params }: { params: { productid: number } }) => {
     return <Box>...Loading</Box>;
   }
 
-  const handleAddToCart = () => {
-    dispatch(setNumberItem());
+  const handleAddToCart = (cartItem: IProduct) => {
+    dispatch(setCartItem(cartItem));
+  };
+
+  const handleBuyNow = (buyItem: IProduct) => {
+    router.push("/buy");
+    dispatch(setBuyItem(buyItem));
   };
 
   return (
@@ -74,11 +79,13 @@ const ProductDetailPage = ({ params }: { params: { productid: number } }) => {
               </Rating>
             </CardContent>
             <CardActions>
-              <Button variant='contained'>Buy now</Button>
+              <Button variant='contained' onClick={() => handleBuyNow(data)}>
+                Buy now
+              </Button>
               <Button
                 variant='contained'
                 color='warning'
-                onClick={handleAddToCart}>
+                onClick={() => handleAddToCart(data)}>
                 Add to cart
               </Button>
             </CardActions>

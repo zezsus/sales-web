@@ -16,4 +16,6 @@ interface IProduct {
 
 interface IProductState {
   numberItem: number;
+  buyItem: any;
+  listCartItem: any;
 }
