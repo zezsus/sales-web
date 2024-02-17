@@ -22,14 +22,30 @@ import {
   Search,
 } from "@/assets/styles/navbarcomponent";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/store";
+import { useState } from "react";
+import { setSearchName } from "@/app/feature/products/searchProductSlice";
 
 const NavbarComponent = () => {
+  const [nameProduct, setNameProduct] = useState("");
   const router = useRouter();
   const numberItem = useSelector(
     (state: RootState) => state.products.numberItem
   );
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleEnterSearch = (e: any) => {
+    if (e.key === "Enter") {
+      handleSearchName();
+    }
+  };
+
+  const handleSearchName = () => {
+    dispatch(setSearchName(nameProduct));
+  };
+
   return (
     <AppBar position='static'>
       <Container>
@@ -44,8 +60,13 @@ const NavbarComponent = () => {
           </Box>
           <NavBody>
             <Search>
-              <InputSearch placeholder='Search name...' />
-              <SearchIconWrapper>
+              <InputSearch
+                placeholder='Search name...'
+                value={nameProduct}
+                onChange={(e: any) => setNameProduct(e.target.value)}
+                onKeyDown={handleEnterSearch}
+              />
+              <SearchIconWrapper onClick={handleSearchName}>
                 <SearchIcon />
               </SearchIconWrapper>
             </Search>

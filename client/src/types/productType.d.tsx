@@ -16,6 +16,16 @@ interface IProduct {
 
 interface IProductState {
   numberItem: number;
-  buyItem: any;
-  listCartItem: any;
+  buyItem: Array<IProduct>;
+  listCartItem: Array<IProduct>;
+  isDeleteCartItem: boolean;
+  deleteItemId: number;
+  searchValue: any;
+  resultSearch: any;
+}
+
+interface ISearchProductState {
+  searchName: string;
+  selectedType: string;
+  selectedPrice: string;
 }

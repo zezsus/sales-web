@@ -1,11 +1,15 @@
 /** @format */
 
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: IProductState = {
   numberItem: 0,
   buyItem: [],
   listCartItem: [],
+  isDeleteCartItem: false,
+  deleteItemId: 0,
+  searchValue: null,
+  resultSearch: [],
 };
 
 export const productSlice = createSlice({
@@ -20,9 +24,33 @@ export const productSlice = createSlice({
     setBuyItem: (state, action) => {
       state.buyItem = action.payload;
     },
+    showDeleteCartItemModal: (state, action) => {
+      state.isDeleteCartItem = action.payload;
+    },
+    setDeleteItemId: (state, action) => {
+      state.deleteItemId = action.payload;
+    },
+
+    setDeleteCartItem: (state) => {
+      const deleteItem = state.listCartItem.filter(
+        (item: any) => item.id !== state.deleteItemId
+      );
+      state.listCartItem = deleteItem;
+      state.numberItem -= 1;
+    },
+
+    getSearchValue: (state, action)=>{
+      state.searchValue = action.payload
+    }
   },
 });
 
-export const { setCartItem, setBuyItem } = productSlice.actions;
+export const {
+  setCartItem,
+  setBuyItem,
+  showDeleteCartItemModal,
+  setDeleteCartItem,
+  setDeleteItemId,
+} = productSlice.actions;
 
 export default productSlice.reducer;

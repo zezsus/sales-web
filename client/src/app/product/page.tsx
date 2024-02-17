@@ -2,24 +2,40 @@
 "use client";
 
 import {
-  Box,
   Button,
   Card,
   CardActions,
   CardContent,
-  CardMedia,
-  Chip,
   Container,
   Stack,
   Typography,
-  styled,
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useDispatch } from "react-redux";
 import Link from "next/link";
+import SpinnerComponent from "@/components/spinnercomponent";
+import SearchComponent from "@/components/searchcomponent";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
+import { useEffect, useState } from "react";
+import {
+  ImageProduct,
+  ListProducts,
+  ProductBody,
+  ProductHeader,
+} from "@/assets/styles/productpage";
 
 const ProductPage = () => {
+  const searchNameProduct = useSelector(
+    (state: RootState) => state.search.searchName
+  );
+  const selectedType = useSelector(
+    (state: RootState) => state.search.selectedType
+  );
+  const selectedPrice = useSelector(
+    (state: RootState) => state.search.selectedPrice
+  );
+
   const { data, isLoading } = useQuery({
     queryKey: ["productData"],
     queryFn: async () => {
@@ -29,23 +45,61 @@ const ProductPage = () => {
     },
   });
 
-  const dispatch = useDispatch();
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    if (!data) return;
+
+    const filteredProducts = data.filter((product: any) => {
+      const isTypeMatch =
+        selectedType === "all" || product.category.includes(selectedType);
+
+      let isPriceMatch = true;
+
+      switch (selectedPrice) {
+        case "0-100":
+          isPriceMatch = product.price <= 100;
+          break;
+        case "100-500":
+          isPriceMatch = product.price > 100 && product.price <= 500;
+          break;
+        case "500-1000":
+          isPriceMatch = product.price > 500 && product.price <= 1000;
+          break;
+        case "1000-1500":
+          isPriceMatch = product.price > 1000 && product.price <= 1500;
+          break;
+        case "1500-2000":
+          isPriceMatch = product.price > 1500 && product.price <= 2000;
+          break;
+        case ">2000":
+          isPriceMatch = product.price > 2000;
+          break;
+      }
+
+      return (
+        product.title.toLowerCase().includes(searchNameProduct.toLowerCase()) &&
+        isTypeMatch &&
+        isPriceMatch
+      );
+    });
+    setProducts(filteredProducts);
+  }, [searchNameProduct, selectedType, selectedPrice, data]);
 
   if (isLoading) {
-    return <div>...Loading</div>;
+    return <SpinnerComponent />;
   }
 
   return (
     <Stack>
-      <Stack>
-        <ProductHeader direction='row' spacing={1}>
-          <Chip sx={{ cursor: "pointer" }} label='Chip Filled' />
-          <Chip label='Chip Outlined' />
+      <Container>
+        <ProductHeader>
+          <SearchComponent />
         </ProductHeader>
         <ProductBody>
-          <Container>
+          {products.length > 0 ? (
             <ListProducts>
-              {data?.map((item: IProduct, index: number) => {
+              {products?.map((item: IProduct, index: number) => {
                 return (
                   <Card sx={{ width: 300 }} key={index}>
                     <ImageProduct image={item.thumbnail} />
@@ -64,38 +118,14 @@ const ProductPage = () => {
                 );
               })}
             </ListProducts>
-          </Container>
+          ) : (
+            <ListProducts>
+              <Typography variant='h5'>Products Not Found</Typography>
+            </ListProducts>
+          )}
         </ProductBody>
-      </Stack>
+      </Container>
     </Stack>
   );
 };
 export default ProductPage;
-
-const ProductHeader = styled(Stack)({
-  padding: "1rem 0  0.5rem 0",
-  display: "flex",
-  justifyContent: "center",
-});
-
-const ProductBody = styled(Box)({
-  maxHeight: "80vh",
-  overflow: "auto",
-});
-
-const ListProducts = styled(Box)({
-  display: "flex",
-  flexWrap: "wrap",
-  justifyContent: "space-between",
-  gap: "1rem",
-  padding: "0.5rem 1rem 1rem 1rem",
-  boxSizing: "border-box",
-});
-
-const ImageProduct = styled(CardMedia)({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  height: 200,
-  width: "auto",
-});

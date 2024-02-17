@@ -8,6 +8,7 @@ import {
   CardActions,
   CardContent,
   CardMedia,
+  Container,
   IconButton,
   Typography,
   styled,
@@ -19,10 +20,12 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { setBuyItem, setCartItem } from "@/app/feature/products/productSlice";
 import { useDispatch } from "react-redux";
+import SpinnerComponent from "@/components/spinnercomponent";
+import { AppDispatch } from "@/app/store";
 
 const ProductDetailPage = ({ params }: { params: { productid: number } }) => {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { data, isLoading } = useQuery({
     queryKey: ["productDetailData", params.productid],
     queryFn: async () => {
@@ -35,7 +38,7 @@ const ProductDetailPage = ({ params }: { params: { productid: number } }) => {
   });
 
   if (isLoading) {
-    return <Box>...Loading</Box>;
+    return <SpinnerComponent />;
   }
 
   const handleAddToCart = (cartItem: IProduct) => {
@@ -54,44 +57,46 @@ const ProductDetailPage = ({ params }: { params: { productid: number } }) => {
         onClick={() => router.push("/product")}>
         <ArrowBackIcon />
       </IconButton>
-      <ProductDetail>
-        <ContentProduct>
-          <CardMedia
-            component='img'
-            image={data.thumbnail}
-            alt={data.title}
-            sx={{ maxWidth: "400px" }}
-          />
-          <Box>
-            <CardContent>
-              <Typography gutterBottom variant='h5' component='div'>
-                {data.title}
-              </Typography>
-              <Typography variant='body2' color='text.secondary'>
-                {data.description}
-              </Typography>
-              <Typography gutterBottom variant='h6' component='div'>
-                ${data.price}
-              </Typography>
-              <Rating variant='body2' color='text.secondary'>
-                <StarIcon color='warning' />
-                {data.rating}
-              </Rating>
-            </CardContent>
-            <CardActions>
-              <Button variant='contained' onClick={() => handleBuyNow(data)}>
-                Buy now
-              </Button>
-              <Button
-                variant='contained'
-                color='warning'
-                onClick={() => handleAddToCart(data)}>
-                Add to cart
-              </Button>
-            </CardActions>
-          </Box>
-        </ContentProduct>
-      </ProductDetail>
+      <Container>
+        <ProductDetail>
+          <ContentProduct>
+            <CardMedia
+              component='img'
+              image={data.thumbnail}
+              alt={data.title}
+              sx={{ maxWidth: "400px" }}
+            />
+            <Box>
+              <CardContent>
+                <Typography gutterBottom variant='h5' component='div'>
+                  {data.title}
+                </Typography>
+                <Typography variant='body2' color='text.secondary'>
+                  {data.description}
+                </Typography>
+                <Typography gutterBottom variant='h6' component='div'>
+                  ${data.price}
+                </Typography>
+                <Rating variant='body2' color='text.secondary'>
+                  <StarIcon color='warning' />
+                  {data.rating}
+                </Rating>
+              </CardContent>
+              <CardActions>
+                <Button variant='contained' onClick={() => handleBuyNow(data)}>
+                  Buy now
+                </Button>
+                <Button
+                  variant='contained'
+                  color='warning'
+                  onClick={() => handleAddToCart(data)}>
+                  Add to cart
+                </Button>
+              </CardActions>
+            </Box>
+          </ContentProduct>
+        </ProductDetail>
+      </Container>
     </Box>
   );
 };
