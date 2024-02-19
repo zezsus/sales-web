@@ -8,7 +8,11 @@ import {
   Button,
   Container,
   IconButton,
+  Link,
+  Menu,
+  MenuItem,
   Toolbar,
+  Tooltip,
   Typography,
   styled,
 } from "@mui/material";
@@ -29,12 +33,21 @@ import { setSearchName } from "@/app/feature/products/searchProductSlice";
 
 const NavbarComponent = () => {
   const [nameProduct, setNameProduct] = useState("");
+  const [userMenu, setUserMenu] = useState<null | HTMLElement>(null);
+  const isShowUserMenu = Boolean(userMenu);
   const router = useRouter();
   const numberItem = useSelector(
     (state: RootState) => state.products.numberItem
   );
 
   const dispatch = useDispatch<AppDispatch>();
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setUserMenu(event.currentTarget);
+  };
+  const handleClose = () => {
+    setUserMenu(null);
+  };
 
   const handleEnterSearch = (e: any) => {
     if (e.key === "Enter") {
@@ -46,17 +59,23 @@ const NavbarComponent = () => {
     dispatch(setSearchName(nameProduct));
   };
 
+  const handleLogout = () => {
+    handleClose();
+  };
+
   return (
     <AppBar position='static'>
       <Container>
         <Toolbar sx={{ display: "flex", gap: "2rem" }}>
           <Box display={"flex"} alignItems={"center"}>
-            <Typography
-              variant='h5'
-              onClick={() => router.push("/")}
-              sx={{ cursor: "pointer" }}>
-              MyWeb
-            </Typography>
+            <Tooltip title='Home' arrow>
+              <Typography
+                variant='h5'
+                onClick={() => router.push("/")}
+                sx={{ cursor: "pointer" }}>
+                MyWeb
+              </Typography>
+            </Tooltip>
           </Box>
           <NavBody>
             <Search>
@@ -71,17 +90,48 @@ const NavbarComponent = () => {
               </SearchIconWrapper>
             </Search>
             <IconButton onClick={() => router.push("/cart")}>
-              <AddShoppingCartIcon fontSize='large' color='secondary' />
+              <Tooltip title='Cart' arrow>
+                <AddShoppingCartIcon fontSize='large' color='secondary' />
+              </Tooltip>
               <NumberItem variant='body2' color='text.secondary'>
                 {numberItem !== 0 ? numberItem : ""}
               </NumberItem>
             </IconButton>
           </NavBody>
           <NavFooter>
-            <Typography component={"span"}>username</Typography>
-            <Button variant='contained' color='error'>
-              Logout
-            </Button>
+            <Tooltip title='User Menu' arrow>
+              <Typography
+                component={"span"}
+                sx={{ cursor: "pointer" }}
+                onClick={handleClick}>
+                username
+              </Typography>
+            </Tooltip>
+
+            <Menu
+              id='user-menu'
+              anchorEl={userMenu}
+              open={isShowUserMenu}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}>
+              <MenuItem
+                onClick={() => {
+                  router.push("/usermenu/profile");
+                  handleClose();
+                }}>
+                Profile
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  router.push("/usermenu/myshop");
+                  handleClose();
+                }}>
+                My Shop
+              </MenuItem>
+              <MenuItem onClick={handleLogout}>LogOut</MenuItem>
+            </Menu>
           </NavFooter>
         </Toolbar>
       </Container>

@@ -4,14 +4,11 @@ interface IProduct {
   id: number;
   title: string;
   description: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: number;
+  price: number | null;
+  rating: number | null;
   brand: string;
   category: string;
   thumbnail: string;
-  images: Array<string>;
 }
 
 interface IProductState {
@@ -28,4 +25,13 @@ interface ISearchProductState {
   searchName: string;
   selectedType: string;
   selectedPrice: string;
+}
+
+interface IMyProductState {
+  myShopProduct: Array<IProduct>;
+  editMyProduct: Array<IProduct>;
+  deleteMyProductId: number;
+  isShowAddMyProduct: boolean;
+  isShowEditMyProduct: boolean;
+  isShowDeleteMyProduct: boolean;
 }

@@ -1,6 +1,6 @@
 /** @format */
 
-import { Box, InputBase, Typography, styled } from "@mui/material";
+import { Box, InputBase,  styled } from "@mui/material";
 
 export const BuyPageDetail = styled(Box)({
   display: "flex",
