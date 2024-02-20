@@ -60,6 +60,7 @@ const NavbarComponent = () => {
   };
 
   const handleLogout = () => {
+    router.push("/auth/login");
     handleClose();
   };
 

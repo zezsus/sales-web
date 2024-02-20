@@ -99,9 +99,7 @@ const AddProductComponent = () => {
         brand: brandProduct,
         category: categoryProduct,
       };
-
       dispatch(setAddMyProduct(newProduct));
-      handleCloseAdd();
     }
   };
 

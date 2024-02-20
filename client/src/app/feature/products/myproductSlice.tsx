@@ -3,18 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: IMyProductState = {
-  myShopProduct: [
-    {
-      id: 1,
-      title: "iPhone 9",
-      description: "An apple mobile which is nothing like apple",
-      price: 549,
-      rating: 4.69,
-      brand: "Apple",
-      category: "smartphones",
-      thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
-    },
-  ],
+  myShopProduct: [],
   editMyProduct: [],
   deleteMyProductId: 0,
   isShowAddMyProduct: false,
