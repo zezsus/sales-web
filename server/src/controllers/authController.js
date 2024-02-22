@@ -1,5 +1,5 @@
 /** @format */
-const User = require("../modals/user");
+const User = require("../modals/usermodal");
 const jwt = require("jsonwebtoken");
 
 const Login = async (req, res) => {
@@ -19,20 +19,20 @@ const Login = async (req, res) => {
       });
     }
 
-    const accessToken = jwt.sign(
-      { userId: user._id },
-      process.env.ACCESSTOKEN
-    );
+    const accessToken = jwt.sign({ userId: user._id }, process.env.ACCESSTOKEN);
+    const userLogin = await User.findById(user._id);
 
     return res.json({
       success: true,
       msg: "Login success!",
       accessToken,
+      userLogin,
     });
   } catch (error) {
     return res.json({
       success: false,
       msg: error.message,
+      userLogin,
     });
   }
 };

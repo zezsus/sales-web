@@ -42,12 +42,20 @@ const ProductDetailPage = ({ params }: { params: { productid: number } }) => {
   }
 
   const handleAddToCart = (cartItem: IProduct) => {
+    if (!localStorage.getItem("userToken")) {
+      router.push("/auth/login");
+      return;
+    }
     dispatch(setCartItem(cartItem));
   };
 
   const handleBuyNow = (buyItem: IProduct) => {
-    router.push("/buy");
-    dispatch(setBuyItem(buyItem));
+    if (localStorage.getItem("userToken")) {
+      router.push("/buy");
+      dispatch(setBuyItem(buyItem));
+    } else {
+      router.push("/auth/login");
+    }
   };
 
   return (

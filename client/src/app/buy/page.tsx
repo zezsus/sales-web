@@ -29,9 +29,11 @@ import { useState } from "react";
 import { setCartItem } from "../feature/products/productSlice";
 
 const BuyPage = () => {
-  const [numberProduct, setNumberProduct] = useState<number>(0);
+  const [numberProduct, setNumberProduct] = useState<number>(1);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const buyItem = useSelector((state: RootState) => state.products.buyItem);
+  const buyItem: any = useSelector(
+    (state: RootState) => state.products.buyItem
+  );
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -54,6 +56,7 @@ const BuyPage = () => {
   const handleClickBuy = () => {
     setOpenModal(false);
     dispatch(setCartItem(buyItem));
+    router.push("/cart");
   };
 
   return (

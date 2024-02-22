@@ -8,7 +8,6 @@ import {
   Button,
   Container,
   IconButton,
-  Link,
   Menu,
   MenuItem,
   Toolbar,
@@ -28,22 +27,38 @@ import {
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { setSearchName } from "@/app/feature/products/searchProductSlice";
 
 const NavbarComponent = () => {
-  const [nameProduct, setNameProduct] = useState("");
+  const [nameProduct, setNameProduct] = useState<string>("");
   const [userMenu, setUserMenu] = useState<null | HTMLElement>(null);
   const isShowUserMenu = Boolean(userMenu);
-  const router = useRouter();
-  const numberItem = useSelector(
+  const [checkLogin, setCheckLogin] = useState<boolean>(false);
+  const [username, setUsername] = useState<string>("");
+  const numberItem: number = useSelector(
     (state: RootState) => state.products.numberItem
   );
 
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setUserMenu(event.currentTarget);
+  useEffect(() => {
+    if (localStorage.getItem("userToken")) {
+      setCheckLogin(true);
+    }
+  }, [checkLogin]);
+
+  useEffect(() => {
+    const userLoaclStorage = localStorage.getItem("userInfo");
+    if (userLoaclStorage) {
+      const user: IUser = JSON.parse(userLoaclStorage);
+      setUsername(user?.name);
+    }
+  }, [username]);
+
+  const handleClickUserName = (e: any) => {
+    setUserMenu(e.currentTarget);
   };
   const handleClose = () => {
     setUserMenu(null);
@@ -60,7 +75,9 @@ const NavbarComponent = () => {
   };
 
   const handleLogout = () => {
-    router.push("/auth/login");
+    localStorage.clear();
+    router.push("/");
+    setCheckLogin(false);
     handleClose();
   };
 
@@ -90,25 +107,46 @@ const NavbarComponent = () => {
                 <SearchIcon />
               </SearchIconWrapper>
             </Search>
-            <IconButton onClick={() => router.push("/cart")}>
+            <IconButton
+              onClick={() => {
+                if (!localStorage.getItem("userToken")) {
+                  router.push("/auth/login");
+                } else {
+                  router.push("/cart");
+                }
+              }}>
               <Tooltip title='Cart' arrow>
                 <AddShoppingCartIcon fontSize='large' color='secondary' />
               </Tooltip>
-              <NumberItem variant='body2' color='text.secondary'>
-                {numberItem !== 0 ? numberItem : ""}
-              </NumberItem>
+              {localStorage.getItem("userToken") ? (
+                <NumberItem variant='body2' color='text.secondary'>
+                  {numberItem !== 0 ? numberItem : ""}
+                </NumberItem>
+              ) : (
+                ""
+              )}
             </IconButton>
           </NavBody>
           <NavFooter>
-            <Tooltip title='User Menu' arrow>
-              <Typography
-                component={"span"}
-                sx={{ cursor: "pointer" }}
-                onClick={handleClick}>
-                username
-              </Typography>
-            </Tooltip>
-
+            {!checkLogin ? (
+              <Tooltip title='LogIn' arrow>
+                <Button
+                  variant='contained'
+                  color='success'
+                  onClick={() => router.push("/auth/login")}>
+                  Login
+                </Button>
+              </Tooltip>
+            ) : (
+              <Tooltip title='User Menu' arrow>
+                <Typography
+                  component={"span"}
+                  sx={{ cursor: "pointer" }}
+                  onClick={handleClickUserName}>
+                  {username}
+                </Typography>
+              </Tooltip>
+            )}
             <Menu
               id='user-menu'
               anchorEl={userMenu}

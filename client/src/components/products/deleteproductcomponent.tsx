@@ -30,7 +30,6 @@ const DeleteProductComponent = () => {
     const myProduct = myShopProduct.filter(
       (product: IProduct) => product.id !== deleteMyProductId
     );
-    console.log(myProduct);
 
     dispatch(setDeleteMyProduct(myProduct));
     handleCloseDelete();
