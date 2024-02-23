@@ -1,0 +1,29 @@
+{
+  "users": [
+    {
+      "id": "k4czc18trz",
+      "username": "ManhSang",
+      "email": "sangak1st@gmail.com",
+      "password": "ad2001",
+      "address": "Hai Bà Trưng, Hà Nội",
+      "phoneNumber": "0862852192"
+    },
+    {
+      "id": "u4w2phcbcq",
+      "username": "Demo",
+      "email": "demo@gmail.com",
+      "password": "123",
+      "address": "demo",
+      "phoneNumber": "0387747339"
+    },
+    {
+      "id": "tl7dbepypb",
+      "username": "demo1",
+      "email": "demo1@gmail.com",
+      "password": "1234",
+      "comfirmPassword": "1234",
+      "address": "",
+      "phoneNumber": ""
+    }
+  ]
+}

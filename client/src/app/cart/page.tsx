@@ -19,7 +19,6 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import {
-  setDeleteCartItem,
   setDeleteItemId,
   showDeleteCartItemModal,
 } from "../feature/products/productSlice";

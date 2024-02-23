@@ -29,33 +29,41 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
 import { useEffect, useState } from "react";
 import { setSearchName } from "@/app/feature/products/searchProductSlice";
+import { setIsLogin } from "@/app/feature/users/userSlice";
+import { useQuery } from "@tanstack/react-query";
+import { getDataUser } from "@/services/auth/authServices";
 
 const NavbarComponent = () => {
   const [nameProduct, setNameProduct] = useState<string>("");
-  const [userMenu, setUserMenu] = useState<null | HTMLElement>(null);
+  const [userMenu, setUserMenu] = useState<any>(null);
   const isShowUserMenu = Boolean(userMenu);
-  const [checkLogin, setCheckLogin] = useState<boolean>(false);
-  const [username, setUsername] = useState<string>("");
+  const [checkLocalStorage, setCheckLocalStorage] = useState<boolean>(false);
   const numberItem: number = useSelector(
     (state: RootState) => state.products.numberItem
+  );
+  const isLogin: boolean = useSelector(
+    (state: RootState) => state.users.isLogin
   );
 
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
   useEffect(() => {
-    if (localStorage.getItem("userToken")) {
-      setCheckLogin(true);
+    if (localStorage.getItem("user")) {
+      setCheckLocalStorage(true);
+    } else {
+      setCheckLocalStorage(false);
     }
-  }, [checkLogin]);
+  }, [checkLocalStorage]);
 
-  useEffect(() => {
-    const userLoaclStorage = localStorage.getItem("userInfo");
-    if (userLoaclStorage) {
-      const user: IUser = JSON.parse(userLoaclStorage);
-      setUsername(user?.name);
-    }
-  }, [username]);
+  const { data, isLoading } = useQuery({
+    queryKey: ["getUserData"],
+    queryFn: getDataUser,
+  });
+  const checkLoginUser: Array<IUser> = JSON.parse(localStorage.getItem("user"));
+  const user: Array<IUser> = data?.filter((user: IUser) => {
+    return checkLoginUser?.find((item: IUser) => item.id === user.id);
+  });
 
   const handleClickUserName = (e: any) => {
     setUserMenu(e.currentTarget);
@@ -74,10 +82,19 @@ const NavbarComponent = () => {
     dispatch(setSearchName(nameProduct));
   };
 
+  const handleClickCart = () => {
+    if (checkLocalStorage) {
+      router.push("/cart");
+    } else {
+      router.push("/auth/login");
+    }
+  };
+
   const handleLogout = () => {
     localStorage.clear();
     router.push("/");
-    setCheckLogin(false);
+    setCheckLocalStorage(false);
+    dispatch(setIsLogin(false));
     handleClose();
   };
 
@@ -109,26 +126,29 @@ const NavbarComponent = () => {
             </Search>
             <IconButton
               onClick={() => {
-                if (!localStorage.getItem("userToken")) {
-                  router.push("/auth/login");
-                } else {
-                  router.push("/cart");
-                }
+                handleClickCart();
               }}>
               <Tooltip title='Cart' arrow>
                 <AddShoppingCartIcon fontSize='large' color='secondary' />
               </Tooltip>
-              {localStorage.getItem("userToken") ? (
-                <NumberItem variant='body2' color='text.secondary'>
-                  {numberItem !== 0 ? numberItem : ""}
-                </NumberItem>
-              ) : (
-                ""
-              )}
+
+              <NumberItem variant='body2' color='text.secondary'>
+                {numberItem !== 0 ? numberItem : ""}
+              </NumberItem>
             </IconButton>
           </NavBody>
           <NavFooter>
-            {!checkLogin ? (
+            {isLogin === true || checkLocalStorage ? (
+              <Tooltip title='User Menu' arrow>
+                <Typography
+                  component={"span"}
+                  sx={{ cursor: "pointer", width: "max-content" }}
+                  onClick={handleClickUserName}>
+                  {user?.length > 0 &&
+                    user?.map((user: IUser) => user.username)}
+                </Typography>
+              </Tooltip>
+            ) : (
               <Tooltip title='LogIn' arrow>
                 <Button
                   variant='contained'
@@ -136,15 +156,6 @@ const NavbarComponent = () => {
                   onClick={() => router.push("/auth/login")}>
                   Login
                 </Button>
-              </Tooltip>
-            ) : (
-              <Tooltip title='User Menu' arrow>
-                <Typography
-                  component={"span"}
-                  sx={{ cursor: "pointer" }}
-                  onClick={handleClickUserName}>
-                  {username}
-                </Typography>
               </Tooltip>
             )}
             <Menu

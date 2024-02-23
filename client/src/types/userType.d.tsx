@@ -1,11 +1,14 @@
 /** @format */
 
 interface IUser {
-  name: string;
+  id: string;
+  username: string;
+  email: string;
+  password: string;
   address: string;
   phoneNumber: string;
 }
 
 interface IUserState {
-  user: Array<IUser>;
+  isLogin: boolean;
 }

@@ -1,7 +1,7 @@
 /** @format */
 "use client";
 
-import { getUser } from "@/app/feature/users/userSlice";
+import { setIsLogin } from "@/app/feature/users/userSlice";
 import { AppDispatch } from "@/app/store";
 import {
   AuthBody,
@@ -10,7 +10,9 @@ import {
   AuthHeader,
   Div,
 } from "@/assets/styles/authstyle";
-import { loginRouter } from "@/util/api";
+import SpinnerComponent from "@/components/spinnercomponent";
+import { getDataUser } from "@/services/auth/authServices";
+import { authRouter } from "@/util/api";
 import {
   Button,
   Checkbox,
@@ -19,7 +21,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -27,41 +29,44 @@ import { useDispatch } from "react-redux";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errorMsg, setErrorMsg] = useState<string>("");
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
 
-  const userMutation = useMutation(async (user: any) => {
-    const res = await axios.post(loginRouter, user);
-    return res.data;
+  const { data, isLoading } = useQuery({
+    queryKey: ["userData"],
+    queryFn: getDataUser,
   });
 
   const handleLogin = async () => {
-    const user = { username, password };
-    try {
-      const data = await userMutation.mutateAsync(user);
+    if (!email || !password) {
+      setErrorMsg("Please complete all the required fields");
+      setTimeout(() => setErrorMsg(""), 3000);
+      return;
+    }
 
-      if (data.success) {
-        if (!localStorage.getItem("userToken")) {
-          localStorage.setItem("userToken", JSON.stringify(data.accessToken));
-        }
-        if (!localStorage.getItem("userInfo")) {
-          localStorage.setItem("userInfo", JSON.stringify(data.userLogin));
-        }
-        dispatch(getUser(data.userLogin));
-        router.push("/");
-      } else {
-        setErrorMsg(data.msg);
-        setTimeout(() => {
-          setErrorMsg("");
-        }, 3000);
+    if (data) {
+      const checkUser = data?.filter(
+        (user: any) => user.email === email && user.password === password
+      );
+      if (checkUser.length === 0) {
+        setErrorMsg("User not found");
+        setTimeout(() => setErrorMsg(""), 3000);
+        return;
       }
-    } catch (error: any) {
-      setErrorMsg(error.response.data.msg);
+      router.push("/");
+      dispatch(setIsLogin(true));
+      if (!localStorage.getItem("user")) {
+        localStorage.setItem("user", JSON.stringify(checkUser));
+      }
     }
   };
+
+  if (isLoading) {
+    return <SpinnerComponent />;
+  }
 
   return (
     <Div>
@@ -73,8 +78,8 @@ const LoginPage = () => {
             label='UserName'
             size='small'
             fullWidth
-            value={username}
-            onChange={(e: any) => setUsername(e.target.value)}
+            value={email}
+            onChange={(e: any) => setEmail(e.target.value)}
           />
           {showPassword ? (
             <TextField
@@ -117,7 +122,7 @@ const LoginPage = () => {
             variant='body1'
             sx={{ display: "flex", alignItems: "center" }}>
             {`If you don't account`}
-            <Button href='/auth/signup'>SignUp</Button>
+            <Button onClick={() => router.push("/auth/signup")}>SignUp</Button>
           </Typography>
         </AuthFooter>
       </AuthForm>

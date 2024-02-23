@@ -42,7 +42,7 @@ const ProductDetailPage = ({ params }: { params: { productid: number } }) => {
   }
 
   const handleAddToCart = (cartItem: IProduct) => {
-    if (!localStorage.getItem("userToken")) {
+    if (!localStorage.getItem("user")) {
       router.push("/auth/login");
       return;
     }

@@ -8,7 +8,7 @@ import {
   AuthHeader,
   Div,
 } from "@/assets/styles/authstyle";
-import { signupRouter } from "@/util/api";
+import { postNewUser } from "@/services/auth/authServices";
 import {
   Box,
   Button,
@@ -17,15 +17,13 @@ import {
   FormGroup,
   TextField,
   Typography,
-  styled,
 } from "@mui/material";
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const SignUpPage = () => {
-  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [comfirmPassword, setComfirmPassword] = useState<string>("");
@@ -34,43 +32,40 @@ const SignUpPage = () => {
 
   const router = useRouter();
 
-  const userMutation = useMutation(async (newUser: any) => {
-    const res = await axios.post(signupRouter, newUser);
-    return res.data;
-  });
+  const userMutation = useMutation((newUser: any) => postNewUser(newUser));
+  const clientQuery = useQueryClient();
+  const listUser: any = clientQuery.getQueryData(["userData"]);
 
-  const handleSignUp = async (e: any) => {
-    e.preventDefault();
-    if (!comfirmPassword) {
-      setErrorMsg("Missing comfirm password");
-      setTimeout(() => {
-        setErrorMsg("");
-      }, 3000);
+  const handleSignUp = async () => {
+    if (!username || !email || !password || !comfirmPassword) {
+      setErrorMsg("Please complete all the required fields");
+      setTimeout(() => setErrorMsg(""), 3000);
       return;
     }
     if (password !== comfirmPassword) {
-      setErrorMsg("password and confirm password should be same.");
-      setTimeout(() => {
-        setErrorMsg("");
-      }, 3000);
+      setErrorMsg("Password and Confirm Password do not match");
+      setTimeout(() => setErrorMsg(""), 3000);
       return;
     }
 
-    const newUser = { name, username, password };
-    // userMutation.mutate(newUser);
-    try {
-      const data = await userMutation.mutateAsync(newUser);
-      if (!data.success) {
-        setErrorMsg(data.msg);
-        setTimeout(() => {
-          setErrorMsg("");
-        }, 3000);
-      } else {
-        router.push("/auth/login");
+    if (listUser) {
+      const test = listUser.filter((item: any) => item.email === email);
+      if (test.length > 0) {
+        setErrorMsg("Email already");
+        setTimeout(() => setErrorMsg(""), 3000);
+        return;
       }
-    } catch (error: any) {
-      setErrorMsg(error.response.data.msg);
     }
+
+    const newUser = {
+      id: Math.random().toString(36).substr(2, 10),
+      username,
+      email,
+      password,
+      comfirmPassword,
+    };
+    userMutation.mutate(newUser);
+    router.push("/auth/login");
   };
 
   return (
@@ -80,19 +75,20 @@ const SignUpPage = () => {
         <AuthBody>
           <TextField
             variant='outlined'
-            label='Name'
-            size='small'
-            fullWidth
-            value={name}
-            onChange={(e: any) => setName(e.target.value)}
-          />
-          <TextField
-            variant='outlined'
             label='UserName'
             size='small'
             fullWidth
             value={username}
             onChange={(e: any) => setUsername(e.target.value)}
+          />
+          <TextField
+            type='email'
+            variant='outlined'
+            label='Email'
+            size='small'
+            fullWidth
+            value={email}
+            onChange={(e: any) => setEmail(e.target.value)}
           />
           {showPassword ? (
             <Box sx={stylePassword}>
@@ -135,7 +131,6 @@ const SignUpPage = () => {
               />
             </Box>
           )}
-
           <FormGroup>
             <FormControlLabel
               control={
@@ -155,7 +150,8 @@ const SignUpPage = () => {
           <Typography
             variant='body1'
             sx={{ display: "flex", alignItems: "center" }}>
-            {`If you have account`} <Button href='/auth/login'>Login</Button>
+            {`If you have account`}{" "}
+            <Button onClick={() => router.push("/auth/login")}>Login</Button>
           </Typography>
         </AuthFooter>
       </AuthForm>

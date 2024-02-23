@@ -3,19 +3,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: IUserState = {
-  user: [],
+  isLogin: false,
 };
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    getUser: (state, action) => {
-      state.user = action.payload;
+    setIsLogin: (state, action) => {
+      state.isLogin = action.payload;
     },
   },
 });
 
-export const { getUser } = userSlice.actions;
+export const { setIsLogin } = userSlice.actions;
 
 export default userSlice.reducer;
