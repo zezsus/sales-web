@@ -24,6 +24,12 @@
       "comfirmPassword": "1234",
       "address": "",
       "phoneNumber": ""
+    },
+    {
+      "id": "b7s317ad1n",
+      "username": "demo3",
+      "email": "demo3@gmail.com",
+      "password": "123"
     }
   ]
 }

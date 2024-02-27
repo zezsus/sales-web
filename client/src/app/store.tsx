@@ -1,17 +1,19 @@
 /** @format */
 
 import { configureStore } from "@reduxjs/toolkit";
-import productReducer from "./feature/products/productSlice";
-import searchProductReducer from "./feature/products/searchProductSlice";
-import myProductReducer from "./feature/products/myproductSlice";
-import userReducer from "./feature/users/userSlice";
+import userReducer from "@/auth/common/redux/userSlice";
+import productReducer from "@/products/common/redux/productSlice";
+import searchProductReducer from "@/products/common/redux/searchProductSlice";
+import myproductReducer from "@/navbar/usermenu/myshop/common/redux/myproductSlice";
+import profileReducer from "@/navbar/usermenu/profile/common/redux/profileSlice";
 
 export const store = configureStore({
   reducer: {
     products: productReducer,
     search: searchProductReducer,
-    myProducts: myProductReducer,
+    myProducts: myproductReducer,
     users: userReducer,
+    profileUser: profileReducer,
   },
 });
 
