@@ -2,7 +2,7 @@
 
 import { authRouter } from "@/util/api";
 import axios from "axios";
-import { usersSchemas } from "../schemas/usersSchemas";
+import { userSchemas, usersSchemas } from "../schemas/usersSchemas";
 import { validateSchemas } from "../utils";
 import { IUser } from "../interfaces";
 
@@ -18,8 +18,8 @@ export const postNewUser = async (newUser: IUser) => {
   return validateSchemas(usersSchemas, data);
 };
 
-export const updateUser = async (id: string, updateUser: IUser) => {
+export const updateUser = async (id: number, updateUser: IUser) => {
   const res = await axios.put(`${authRouter}/${id}`, updateUser);
   const data = res.data;
-  return validateSchemas(usersSchemas, data);
+  return validateSchemas(userSchemas, data);
 };

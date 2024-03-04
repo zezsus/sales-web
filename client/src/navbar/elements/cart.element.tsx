@@ -2,18 +2,16 @@
 "use client";
 
 import { IconButton, Tooltip } from "@mui/material";
-import { NumberItem } from "../common/assets/navbarcomponent";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/store";
 import { useEffect, useState } from "react";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useRouter } from "next/navigation";
+import { RootState } from "@/app/store";
+import { useSelector } from "react-redux";
 
 const CartElement = () => {
-  const numberItem: number = useSelector(
-    (state: RootState) => state.products.numberItem
-  );
   const [checkLocalStorage, setCheckLocalStorage] = useState<boolean>(false);
+  const isLogin = useSelector((state: RootState) => state.users.isLogin);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -25,10 +23,10 @@ const CartElement = () => {
   }, [checkLocalStorage]);
 
   const handleClickCart = () => {
-    if (checkLocalStorage) {
-      router.push("/cart");
-    } else {
+    if (!checkLocalStorage && !isLogin) {
       router.push("/auth/login");
+    } else {
+      router.push("/cart");
     }
   };
 
@@ -40,10 +38,6 @@ const CartElement = () => {
       <Tooltip title='Cart' arrow>
         <AddShoppingCartIcon fontSize='large' color='secondary' />
       </Tooltip>
-
-      <NumberItem variant='body2' color='text.secondary'>
-        {numberItem !== 0 ? numberItem : ""}
-      </NumberItem>
     </IconButton>
   );
 };

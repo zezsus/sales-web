@@ -4,13 +4,9 @@ import { InferType } from "yup";
 import { productSchemas } from "../schemas/productsSchemas";
 
 export interface IProductState {
-  numberItem: number;
   buyItem: Array<IProduct>;
-  listCartItem: Array<IProduct>;
-  isDeleteCartItem: boolean;
-  deleteItemId: number;
+  buyNumberProduct: number;
   isShowModal: boolean;
-  numberBuyProduct: number;
 }
 
 export interface ISearchProductState {
@@ -19,13 +15,16 @@ export interface ISearchProductState {
   selectedPrice: string;
 }
 
-export interface IMyProductState {
-  myShopProduct: Array<IProduct>;
-  editMyProduct: Array<IProduct>;
-  deleteMyProductId: number;
-  isShowAddMyProduct: boolean;
-  isShowEditMyProduct: boolean;
-  isShowDeleteMyProduct: boolean;
-}
-
 export type IProduct = InferType<typeof productSchemas>;
+
+export interface ICartItem {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  rating: number;
+  brand: string;
+  category: string;
+  thumbnail: string;
+  userId: number;
+}

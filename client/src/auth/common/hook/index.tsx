@@ -2,7 +2,7 @@
 
 import { IUser } from "@/auth/common/interfaces";
 import { getDataUser, postNewUser } from "@/auth/common/services";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useGetUserData = () => {
   return useQuery({
@@ -12,5 +12,10 @@ export const useGetUserData = () => {
 };
 
 export const usePostNewtUser = () => {
-  return useMutation((newUser: IUser) => postNewUser(newUser));
+  const queryClient = useQueryClient();
+  return useMutation((newUser: IUser) => postNewUser(newUser), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["userData"]);
+    },
+  });
 };

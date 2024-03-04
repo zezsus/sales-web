@@ -4,7 +4,7 @@
 import { AppDispatch, RootState } from "@/app/store";
 import { useGetUserData } from "@/auth/common/hook";
 import { IUser } from "@/auth/common/interfaces";
-import { setIsLocalStorage, setIsLogin } from "@/auth/common/redux/userSlice";
+import { setIsLogin } from "@/auth/common/redux/userSlice";
 import {
   Box,
   Button,
@@ -19,13 +19,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 const UserMenuElement = () => {
   const [userMenu, setUserMenu] = useState<any>(null);
+  const isLogin = useSelector((state: RootState) => state.users.isLogin);
   const isShowUserMenu = Boolean(userMenu);
-  const isLocalStorage = localStorage.getItem("user");
-
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
   const userData = useGetUserData();
+  const isLocalStorage = localStorage.getItem("user");
   const storedUser: string | null = localStorage.getItem("user");
   const checkLoginUser: Array<IUser> = storedUser ? JSON.parse(storedUser) : [];
   const user: Array<IUser> = userData.data?.filter((user: IUser) => {
@@ -43,13 +43,12 @@ const UserMenuElement = () => {
     localStorage.clear();
     router.push("/");
     dispatch(setIsLogin(false));
-    dispatch(setIsLocalStorage());
     handleClose();
   };
 
   return (
     <Box>
-      {isLocalStorage ? (
+      {isLocalStorage || isLogin ? (
         <Tooltip title='User Menu' arrow>
           <Typography
             component={"span"}

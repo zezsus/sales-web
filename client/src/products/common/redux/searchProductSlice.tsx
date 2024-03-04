@@ -1,6 +1,7 @@
 /** @format */
 
 import { createSlice } from "@reduxjs/toolkit";
+import { ISearchProductState } from "../interface";
 
 const initialState: ISearchProductState = {
   searchName: "",

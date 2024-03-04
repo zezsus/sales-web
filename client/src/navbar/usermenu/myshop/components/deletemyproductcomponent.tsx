@@ -1,9 +1,6 @@
 /** @format */
 
-import {
-  setDeleteMyProduct,
-  setShowDeleteMyProduct,
-} from "@/navbar/usermenu/myshop/common/redux/myproductSlice";
+import { setShowDeleteMyProduct } from "@/navbar/usermenu/myshop/common/redux/myproductSlice";
 import { AppDispatch, RootState } from "@/app/store";
 import {
   FormBody,
@@ -13,26 +10,51 @@ import {
 } from "@/navbar/usermenu/common/assets/formstyle";
 import { Box, Button, Modal, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  useDeleteMyProductData,
+  useGetMyProductData,
+} from "../common/hooks/myshop.hook";
+import {
+  useDeleteProductData,
+  useGetProductData,
+} from "@/products/common/hooks";
+import {
+  setColor,
+  setIsMessage,
+  setMessage,
+} from "@/auth/common/redux/userSlice";
 
 const DeleteProductComponent = () => {
-  const showDeleteProduct = useSelector(
+  const showDeleteMyProduct = useSelector(
     (state: RootState) => state.myProducts.isShowDeleteMyProduct
   );
   const deleteMyProductId = useSelector(
     (state: RootState) => state.myProducts.deleteMyProductId
   );
-  const myShopProduct = useSelector(
-    (state: RootState) => state.myProducts.myShopProduct
-  );
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleDeleteProduct = () => {
-    const myProduct = myShopProduct.filter(
-      (product: IProduct) => product.id !== deleteMyProductId
-    );
+  const deleteMyProduct = useDeleteMyProductData();
+  const getMyProduct = useGetMyProductData();
+  const deleteProduct = useDeleteProductData();
+  const getProduct = useGetProductData();
 
-    dispatch(setDeleteMyProduct(myProduct));
-    handleCloseDelete();
+  const handleDeleteMyProduct = () => {
+    deleteMyProduct.mutate(deleteMyProductId, {
+      onSuccess: () => {
+        getMyProduct.refetch();
+        dispatch(setIsMessage(true));
+        dispatch(setMessage("Delete product success"));
+        dispatch(setColor("success"));
+        handleCloseDelete();
+      },
+    });
+
+    deleteProduct.mutate(deleteMyProductId, {
+      onSuccess: () => {
+        getProduct.refetch();
+        handleCloseDelete();
+      },
+    });
   };
 
   const handleCloseDelete = () => {
@@ -40,7 +62,7 @@ const DeleteProductComponent = () => {
   };
 
   return (
-    <Modal open={showDeleteProduct}>
+    <Modal open={showDeleteMyProduct}>
       <Box sx={formStyle}>
         <FormHeader sx={{ backgroundColor: "red" }}>
           <Typography variant='h6'>Delete Product</Typography>
@@ -59,7 +81,7 @@ const DeleteProductComponent = () => {
           <Button
             variant='contained'
             color='error'
-            onClick={handleDeleteProduct}>
+            onClick={handleDeleteMyProduct}>
             Yes
           </Button>
           <Button variant='contained' color='info' onClick={handleCloseDelete}>

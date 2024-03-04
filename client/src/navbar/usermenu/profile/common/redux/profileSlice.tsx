@@ -1,7 +1,7 @@
 /** @format */
 
 import { createSlice } from "@reduxjs/toolkit";
-import { IUserProfileState } from "../interfaces";
+import { IUserProfileState } from "../interfaces/profile.interface";
 
 const initialState: IUserProfileState = {
   isUpdateUser: false,

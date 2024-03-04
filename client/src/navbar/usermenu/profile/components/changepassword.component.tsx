@@ -12,12 +12,18 @@ import {
 import { FormBody, FormFooter } from "../../common/assets/formstyle";
 import { styleBox } from "../common/assets/profile";
 import { useState } from "react";
-import { INewDataUser } from "../common/interfaces";
-import { useUpdateUser } from "../common/hook";
+import { INewDataUser } from "../common/interfaces/profile.interface";
+import { useUpdateUser } from "../common/hook/profile.hook";
 import { stylePassword } from "@/auth/common/assets/signupstyle";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/store";
 import { setIsChangePassword } from "../common/redux/profileSlice";
+import { useGetUserData } from "@/auth/common/hook";
+import {
+  setColor,
+  setIsMessage,
+  setMessage,
+} from "@/auth/common/redux/userSlice";
 
 const ChangePassWordComponent = ({ userData }: any) => {
   const [newData, setNewData] = useState<INewDataUser>({
@@ -36,39 +42,41 @@ const ChangePassWordComponent = ({ userData }: any) => {
   };
 
   const updatePassword = useUpdateUser(userData.id);
+  const getDataUser = useGetUserData();
 
   const handleSave = () => {
     if (!newData.email || !newData.password || !newData.newPassword) {
-      setError("Please fill in all fields");
-      setTimeout(() => {
-        setError("");
-      }, 3000);
+      dispatch(setIsMessage(true));
+      dispatch(setMessage("Please fill in all fields"));
+      dispatch(setColor("error"));
       return;
     }
     if (
       userData.email !== newData.email ||
       userData.password !== newData.password
     ) {
-      setError("Incorrect email or password");
-      setTimeout(() => {
-        setError("");
-      }, 3000);
+      dispatch(setIsMessage(true));
+      dispatch(setMessage("Incorrect email or password"));
+      dispatch(setColor("error"));
       return;
     }
     if (userData.password === newData.newPassword) {
-      setError("Password cannot be the same as the new password");
-      setTimeout(() => {
-        setError("");
-      }, 3000);
+      dispatch(setIsMessage(true));
+      dispatch(setMessage("Password cannot be the same as the new password"));
+      dispatch(setColor("error"));
       return;
     }
-    const newPassword: any = { password: newData.newPassword, ...userData };
-    updatePassword.mutate(newPassword);
+    const newPassword: any = { ...userData, password: newData.newPassword };
+
+    updatePassword.mutate(newPassword, {
+      onSuccess: () => {
+        getDataUser.refetch();
+      },
+    });
     setNewData({ email: "", password: "", newPassword: "" });
-    setSuccess("Change password successfully.");
-    setTimeout(() => {
-      setSuccess("");
-    }, 3000);
+    dispatch(setIsMessage(true));
+    dispatch(setMessage("Change password successfully."));
+    dispatch(setColor("success"));
   };
 
   const handleClose = () => {

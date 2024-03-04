@@ -3,7 +3,11 @@
 import ProfileComponent from "@/navbar/usermenu/profile/components/profile.component";
 
 const ProfilePage = () => {
-  return <ProfileComponent />;
+  return (
+    <div>
+      <ProfileComponent />
+    </div>
+  );
 };
 
 export default ProfilePage;

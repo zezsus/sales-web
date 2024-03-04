@@ -22,29 +22,33 @@ import { useRouter } from "next/navigation";
 import { useGetUserData, usePostNewtUser } from "../common/hook";
 import { stylePassword } from "../common/assets/signupstyle";
 import { IUser } from "../common/interfaces";
+import { setColor, setIsMessage, setMessage } from "../common/redux/userSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/app/store";
+import ToastMessageComponent from "@/components/toasmessage.component";
 
 const SignUpPage = () => {
   const [email, setEmail] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [comfirmPassword, setComfirmPassword] = useState<string>("");
-  const [errorMsg, setErrorMsg] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
-
+  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-
   const postUser = usePostNewtUser();
   const listUser = useGetUserData();
 
   const handleSignUp = async () => {
     if (!username || !email || !password || !comfirmPassword) {
-      setErrorMsg("Please complete all the required fields");
-      setTimeout(() => setErrorMsg(""), 3000);
+      dispatch(setIsMessage(true));
+      dispatch(setMessage("Please complete all the required fields"));
+      dispatch(setColor("error"));
       return;
     }
     if (password !== comfirmPassword) {
-      setErrorMsg("Password and Confirm Password do not match");
-      setTimeout(() => setErrorMsg(""), 3000);
+      dispatch(setIsMessage(true));
+      dispatch(setMessage("Password and Confirm Password do not match"));
+      dispatch(setColor("error"));
       return;
     }
 
@@ -54,24 +58,34 @@ const SignUpPage = () => {
       );
 
       if (checkUser.length > 0) {
-        setErrorMsg("Email already");
-        setTimeout(() => setErrorMsg(""), 3000);
+        dispatch(setIsMessage(true));
+        dispatch(setMessage("Email already"));
+        dispatch(setColor("error"));
         return;
       }
     }
 
     const newUser: IUser = {
-      id: Math.random().toString(36).substr(2, 10),
+      id: Math.floor(Math.random() * 100000),
       username,
       email,
       password,
+      address: "",
+      phoneNumber: "",
     };
     postUser.mutate(newUser);
-    router.push("/auth/login");
+    setUsername("");
+    setEmail("");
+    setPassword("");
+    setComfirmPassword("");
+    dispatch(setIsMessage(true));
+    dispatch(setMessage("SignUp successfully"));
+    dispatch(setColor("success"));
   };
 
   return (
     <Div>
+      <ToastMessageComponent />
       <AuthForm>
         <AuthHeader variant='h5'>Sign Up</AuthHeader>
         <AuthBody>
@@ -141,9 +155,6 @@ const SignUpPage = () => {
               label='Show Password'
             />
           </FormGroup>
-          <Typography variant='body2' color={"error"}>
-            {errorMsg}
-          </Typography>
         </AuthBody>
         <AuthFooter>
           <Button variant='contained' color='success' onClick={handleSignUp}>

@@ -5,25 +5,16 @@ import { styleModal } from "../common/assets";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
 import { useRouter } from "next/navigation";
-import {
-  setCartItem,
-  setShowModal,
-} from "@/products/common/redux/productSlice";
+import { setShowModal } from "@/products/common/redux/productSlice";
 
 const ModalSuccessElement = () => {
-  const buyItem: any = useSelector(
-    (state: RootState) => state.products.buyItem
-  );
   const isShowModal = useSelector(
     (state: RootState) => state.products.isShowModal
   );
   const dispatch = useDispatch<AppDispatch>();
-  const router = useRouter();
 
   const handleClickBuy = () => {
     dispatch(setShowModal(false));
-    dispatch(setCartItem(buyItem));
-    router.push("/cart");
   };
 
   return (

@@ -9,7 +9,7 @@ const ToTalProduct = () => {
     (state: RootState) => state.products.buyItem
   );
   const numberBuyProduct = useSelector(
-    (state: RootState) => state.products.numberBuyProduct
+    (state: RootState) => state.products.buyNumberProduct
   );
 
   return (

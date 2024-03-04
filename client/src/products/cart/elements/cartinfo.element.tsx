@@ -11,26 +11,26 @@ import { CartContent, CartItem } from "../common/assets/cartinfo";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { AppDispatch } from "@/app/store";
-import {
-  setDeleteItemId,
-  showDeleteCartItemModal,
-} from "@/products/common/redux/productSlice";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import {
+  setDeleteItemCartId,
+  showDeleteCartItemModal,
+} from "../common/redux/cartSlices";
 
 const CartInfoElement = ({ cartProduct }: any) => {
   const router = useRouter();
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleDeleteItemCart = (deleteItem: any) => {
+  const handleDeleteItemCart = (deleteItemId: number) => {
     dispatch(showDeleteCartItemModal(true));
-    dispatch(setDeleteItemId(deleteItem));
+    dispatch(setDeleteItemCartId(deleteItemId));
   };
-
   return (
     <CartItem>
       <CardMedia
-        sx={{ height: "50px", minWidth: "80px" }}
+        component={"img"}
+        sx={{ height: "50px", maxWidth: "80px" }}
         image={cartProduct.thumbnail}
         title={cartProduct.title}
       />

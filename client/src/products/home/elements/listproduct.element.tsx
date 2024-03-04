@@ -34,7 +34,6 @@ const ListProductElement = () => {
 
   useEffect(() => {
     if (!getData.data) return;
-
     const filteredProducts = getData.data.filter((product: any) => {
       const isTypeMatch =
         selectedType === "all" || product.category.includes(selectedType);

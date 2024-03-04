@@ -1,26 +1,36 @@
 /** @format */
 
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
-import {
-  setDeleteCartItem,
-  showDeleteCartItemModal,
-} from "@/products/common/redux/productSlice";
 import { ModalAction, style } from "../common/assets/deletecartitem";
+import { showDeleteCartItemModal } from "../common/redux/cartSlices";
+import {
+  setColor,
+  setIsMessage,
+  setMessage,
+} from "@/auth/common/redux/userSlice";
+import {
+  useDeleteCartItem,
+  useGetCartItem,
+} from "../common/hooks/cartproducts";
+import { Box, Button, Modal, Typography } from "@mui/material";
 
 const DeleteCartItemComponent = () => {
-  const showDelete = useSelector(
-    (state: RootState) => state.products.isDeleteCartItem
+  const showDelete: boolean = useSelector(
+    (state: RootState) => state.carts.isShowDeleteCart
   );
+  const deleteItemCartId: number = useSelector(
+    (state: RootState) => state.carts.deleteItemCartId
+  );
+
   const dispatch = useDispatch<AppDispatch>();
 
+  const deleteCartItem = useDeleteCartItem();
+  const getCartData = useGetCartItem();
+
   const handleDeleteCartItem = () => {
-    dispatch(setDeleteCartItem());
+    deleteCartItem.mutate(deleteItemCartId);
     handleCloseCartItem();
   };
 
@@ -52,7 +62,7 @@ const DeleteCartItemComponent = () => {
         </Typography>
         <hr />
         <ModalAction>
-          <Button onClick={handleDeleteCartItem} color='error'>
+          <Button onClick={() => handleDeleteCartItem()} color='error'>
             Yes
           </Button>
           <Button onClick={handleCloseCartItem} color='info'>

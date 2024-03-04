@@ -1,27 +1,17 @@
 {
   "users": [
     {
-      "id": "k4czc18trz",
-      "username": "ManhSang",
-      "email": "sangak1st@gmail.com",
-      "password": "ad2001",
-      "address": "Hai Bà Trưng, Hà Nội",
-      "phoneNumber": "0862852192"
-    },
-    {
-      "password": "1234",
-      "id": "tl7dbepypb",
-      "username": "demo1",
-      "email": "demo1@gmail.com",
-      "comfirmPassword": "1234",
-      "address": "demo1",
-      "phoneNumber": "0387747339"
-    },
-    {
-      "id": "b7s317ad1n",
-      "username": "demo3",
-      "email": "demo3@gmail.com",
-      "password": "123"
+      "id": 45184,
+      "username": "demo",
+      "email": "demo@gmail.com",
+      "password": "123",
+      "address": "",
+      "phoneNumber": ""
     }
-  ]
+  ],
+  "products": [],
+  "myProducts": [],
+  "carts": [],
+  "brands": [],
+  "categorys": []
 }

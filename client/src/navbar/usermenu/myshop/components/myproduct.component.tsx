@@ -3,20 +3,21 @@
 
 import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
-import AddProductComponent from "./addproductcomponent";
-import EditProductComponent from "../components/editproductcomponent";
-import DeleteProductComponent from "../components/deleteproductcomponent";
+import AddProductComponent from "./addmyproductcomponent";
+import EditProductComponent from "./editmyproductcomponent";
+import DeleteProductComponent from "./deletemyproductcomponent";
 import ButtonAddProductElement from "../elements/buttonadd.elemet";
 import TableListProductElement from "../elements/tablelistproduct.element";
 import ProductNotFoundElement from "../elements/productnotfound.element";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 import { MyShop } from "../common/assets/myproduct";
+import SpinnerComponent from "@/components/spinnercomponent";
+import { useGetMyProductData } from "../common/hooks/myshop.hook";
+import ToastMessageComponent from "@/components/toasmessage.component";
 
 const MyProductComponent = () => {
-  const myShopProduct = useSelector(
-    (state: RootState) => state.myProducts.myShopProduct
-  );
+  const myShopProduct = useGetMyProductData();
   const showAddProduct = useSelector(
     (state: RootState) => state.myProducts.isShowAddMyProduct
   );
@@ -27,11 +28,15 @@ const MyProductComponent = () => {
     (state: RootState) => state.myProducts.isShowDeleteMyProduct
   );
 
+  if (myShopProduct.isLoading) {
+    return <SpinnerComponent />;
+  }
   return (
     <MyShop>
+      <ToastMessageComponent />
       <ButtonAddProductElement />
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
-        {myShopProduct.length > 0 ? (
+        {myShopProduct.data.length > 0 ? (
           <TableListProductElement />
         ) : (
           <ProductNotFoundElement />

@@ -15,7 +15,7 @@ const BuyContentElement = ({ priceBuyProduct }: any) => {
 
   const incrementNumberProduct = () => {
     setNumberProduct(numberProduct + 1);
-    dispatch(setBuyNumberProduct(numberProduct));
+    dispatch(setBuyNumberProduct(numberProduct + 1));
   };
 
   const decrementNumberProduct = () => {
@@ -24,7 +24,7 @@ const BuyContentElement = ({ priceBuyProduct }: any) => {
     } else {
       setNumberProduct(0);
     }
-    dispatch(setBuyNumberProduct(numberProduct));
+    dispatch(setBuyNumberProduct(numberProduct - 1));
   };
 
   const handleOnChangeNumberProduct = (e: any) => {

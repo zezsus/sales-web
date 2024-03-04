@@ -10,6 +10,8 @@ import { useGetUserData } from "@/auth/common/hook";
 import { useEffect, useState } from "react";
 import { IUser } from "@/auth/common/interfaces";
 import ChangePassWordComponent from "./changepassword.component";
+import ToastMessageComponent from "@/components/toasmessage.component";
+import { Box } from "@mui/material";
 
 const ProfileComponent = () => {
   const isUpdateUser: boolean = useSelector(
@@ -49,15 +51,19 @@ const ProfileComponent = () => {
   }, [getUserInfo.data, userLogin]);
 
   return (
-    <Profile>
-      {isUpdateUser ? (
-        <UpdateUserElement userData={userInfo} />
-      ) : isChangePassword ? (
-        <ChangePassWordComponent userData={userInfo} />
-      ) : (
-        <GetUserInfoElement userData={userInfo} />
-      )}
-    </Profile>
+    <Box>
+      <ToastMessageComponent />
+
+      <Profile>
+        {isUpdateUser ? (
+          <UpdateUserElement userData={userInfo} />
+        ) : isChangePassword ? (
+          <ChangePassWordComponent userData={userInfo} />
+        ) : (
+          <GetUserInfoElement userData={userInfo} />
+        )}
+      </Profile>
+    </Box>
   );
 };
 
