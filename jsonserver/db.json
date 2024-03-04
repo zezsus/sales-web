@@ -9,21 +9,13 @@
       "phoneNumber": "0862852192"
     },
     {
-      "id": "u4w2phcbcq",
-      "username": "Demo",
-      "email": "demo@gmail.com",
-      "password": "123",
-      "address": "demo",
-      "phoneNumber": "0387747339"
-    },
-    {
+      "password": "1234",
       "id": "tl7dbepypb",
       "username": "demo1",
       "email": "demo1@gmail.com",
-      "password": "1234",
       "comfirmPassword": "1234",
-      "address": "",
-      "phoneNumber": ""
+      "address": "demo1",
+      "phoneNumber": "0387747339"
     },
     {
       "id": "b7s317ad1n",

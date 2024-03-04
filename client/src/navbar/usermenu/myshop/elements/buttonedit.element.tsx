@@ -8,8 +8,9 @@ import {
 } from "../common/redux/myproductSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/store";
+import { IProduct } from "@/products/common/interface";
 
-const ButtonEditElement = ({props}:any) => {
+const ButtonEditElement = ({ editItem }: any) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleClickEditProduct = (editItem: IProduct) => {
@@ -21,7 +22,7 @@ const ButtonEditElement = ({props}:any) => {
     <Tooltip title='Edit' arrow>
       <IconButton
         color='warning'
-        onClick={() => handleClickEditProduct(props.product)}>
+        onClick={() => handleClickEditProduct(editItem)}>
         <EditCalendarIcon />
       </IconButton>
     </Tooltip>

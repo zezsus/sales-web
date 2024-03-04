@@ -5,6 +5,7 @@ import { IUserProfileState } from "../interfaces";
 
 const initialState: IUserProfileState = {
   isUpdateUser: false,
+  isChangePassword: false,
 };
 
 export const profileSlice = createSlice({
@@ -14,9 +15,12 @@ export const profileSlice = createSlice({
     setUpdateUser: (state, action) => {
       state.isUpdateUser = action.payload;
     },
+    setIsChangePassword: (state, action) => {
+      state.isChangePassword = action.payload;
+    },
   },
 });
 
-export const { setUpdateUser } = profileSlice.actions;
+export const { setUpdateUser, setIsChangePassword } = profileSlice.actions;
 
 export default profileSlice.reducer;

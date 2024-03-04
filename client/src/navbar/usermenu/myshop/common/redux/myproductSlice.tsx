@@ -1,5 +1,6 @@
 /** @format */
 
+import { IMyProductState, IProduct } from "@/products/common/interface";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: IMyProductState = {
@@ -31,7 +32,7 @@ export const myProductSlice = createSlice({
 
     setUpdateProduct: (state, action) => {
       const updatedIndex = state.myShopProduct.findIndex(
-        (product) => product.id === action.payload.id
+        (product:IProduct) => product.id === action.payload.id
       );
       if (updatedIndex !== -1) {
         state.myShopProduct[updatedIndex] = action.payload;

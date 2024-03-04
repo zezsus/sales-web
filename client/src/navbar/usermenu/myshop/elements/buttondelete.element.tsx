@@ -9,7 +9,7 @@ import {
   setShowDeleteMyProduct,
 } from "../common/redux/myproductSlice";
 
-const ButtonDeleteItem = ({ props }: any) => {
+const ButtonDeleteItem = ({ deleteItem }: any) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleClickDeleteProduct = (productDeleteId: number) => {
@@ -20,7 +20,7 @@ const ButtonDeleteItem = ({ props }: any) => {
     <Tooltip title='Delete' arrow>
       <IconButton
         color='error'
-        onClick={() => handleClickDeleteProduct(props.product.id)}>
+        onClick={() => handleClickDeleteProduct(deleteItem.id)}>
         <DeleteForeverIcon />
       </IconButton>
     </Tooltip>

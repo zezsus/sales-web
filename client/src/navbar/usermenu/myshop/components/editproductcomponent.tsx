@@ -27,6 +27,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SpinnerComponent from "@/components/spinnercomponent";
+import { IProduct } from "@/products/common/interface";
+import { useGetProductData } from "@/products/common/hooks";
 
 const EditProductComponent = () => {
   const showEditProduct = useSelector(
@@ -41,20 +43,13 @@ const EditProductComponent = () => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["addProduct"],
-    queryFn: async () => {
-      const res = await axios.get("https://dummyjson.com/products");
-      const data = await res.data;
-      return data.products;
-    },
-  });
+  const getProduct: any = useGetProductData();
 
   useEffect(() => {
     const brands: any = [];
     const category: any = [];
-    if (data) {
-      data?.map((product: IProduct) => {
+    if (getProduct.data) {
+      getProduct.data?.map((product: IProduct) => {
         if (!brands?.includes(product.brand)) {
           brands.push(product.brand);
         }
@@ -66,7 +61,7 @@ const EditProductComponent = () => {
       setBrandProduct(brands);
       setCategoryProduct(category);
     }
-  }, [data]);
+  }, [getProduct.data]);
 
   const onChangeEditValue = (e: any) => {
     setEditValue({ ...editValue, [e.target.name]: e.target.value });
@@ -81,7 +76,7 @@ const EditProductComponent = () => {
     dispatch(setShowEditMyProduct(false));
   };
 
-  if (isLoading) {
+  if (getProduct.isLoading) {
     return <SpinnerComponent />;
   }
 

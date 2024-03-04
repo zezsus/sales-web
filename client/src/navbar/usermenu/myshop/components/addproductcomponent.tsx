@@ -22,11 +22,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SpinnerComponent from "@/components/spinnercomponent";
+import { IProduct } from "@/products/common/interface";
+import { useGetProductData } from "@/products/common/hooks";
+import { usePostProductData } from "../common/hooks";
 
 const AddProductComponent = () => {
   const showAddProduct = useSelector(
@@ -46,20 +49,14 @@ const AddProductComponent = () => {
   );
   const dispatch = useDispatch<AppDispatch>();
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["addProduct"],
-    queryFn: async () => {
-      const res = await axios.get("https://dummyjson.com/products");
-      const data = await res.data;
-      return data.products;
-    },
-  });
+  const getProduct: any = useGetProductData();
+  const postNewProduct: any = usePostProductData();
 
   useEffect(() => {
     const brands: any = [];
     const category: any = [];
-    if (data) {
-      data?.map((product: IProduct) => {
+    if (getProduct.data) {
+      getProduct.data?.map((product: IProduct) => {
         if (!brands?.includes(product.brand)) {
           brands.push(product.brand);
         }
@@ -71,7 +68,7 @@ const AddProductComponent = () => {
       setListBrandProduct(brands);
       setListCategoryProduct(category);
     }
-  }, [data]);
+  }, [getProduct.data]);
 
   const handleAddProduct = () => {
     if (
@@ -100,6 +97,8 @@ const AddProductComponent = () => {
         category: categoryProduct,
       };
       dispatch(setAddMyProduct(newProduct));
+      postNewProduct.mutate(newProduct);
+      handleCloseAdd();
     }
   };
 
@@ -114,7 +113,7 @@ const AddProductComponent = () => {
     dispatch(setShowAddMyProduct(false));
   };
 
-  if (isLoading) {
+  if (getProduct.isLoading) {
     return <SpinnerComponent />;
   }
 
@@ -202,8 +201,7 @@ const AddProductComponent = () => {
               })}
             </Select>
           </FormControl>
-
-          <Typography component={"span"} color={"error"} align='center'>
+          <Typography component={"div"} color={"error"} align='center'>
             {error}
           </Typography>
         </FormBody>

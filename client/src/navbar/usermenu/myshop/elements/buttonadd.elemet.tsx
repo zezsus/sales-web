@@ -2,7 +2,7 @@
 
 import { AppDispatch } from "@/app/store";
 import { setShowAddMyProduct } from "@/navbar/usermenu/myshop/common/redux/myproductSlice";
-import { AddIcCallOutlined } from "@mui/icons-material";
+import AddIcon from "@mui/icons-material/Add";
 import { Fab, Tooltip } from "@mui/material";
 import { useDispatch } from "react-redux";
 
@@ -16,7 +16,7 @@ const ButtonAddProductElement = () => {
         aria-label='add'
         size='small'
         onClick={() => dispatch(setShowAddMyProduct(true))}>
-        <AddIcCallOutlined />
+        <AddIcon />
       </Fab>
     </Tooltip>
   );

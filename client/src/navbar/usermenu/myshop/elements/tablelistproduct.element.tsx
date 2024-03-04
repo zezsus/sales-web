@@ -15,6 +15,7 @@ import ButtonEditElement from "./buttonedit.element";
 import ButtonDeleteItem from "./buttondelete.element";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
+import { IProduct } from "@/products/common/interface";
 
 const TableListProductElement = () => {
   const [myProducts, setMyProducts] = useState<Array<IProduct>>([]);
