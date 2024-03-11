@@ -2,7 +2,7 @@
 import * as Yup from "yup";
 
 export const userSchemas = Yup.object().shape({
-  id: Yup.number().required(),
+  id: Yup.string().required(),
   username: Yup.string().required(),
   email: Yup.string().required(),
   password: Yup.string().max(6).required(),

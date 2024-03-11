@@ -8,24 +8,50 @@ import CartInfoElement from "../elements/cartinfo.element";
 import DeleteCartItemComponent from "@/products/cart/components/deletecartitemcomponent";
 import { Cart } from "../common/assets/cartinfo";
 import ToastMessageComponent from "@/components/toasmessage.component";
-import { IMyProduct } from "@/navbar/usermenu/myshop/common/interfaces/myshop.interface";
 import { useGetCartItem } from "../common/hooks/cartproducts";
+import { IProduct } from "@/products/common/interface";
+import { useEffect, useState } from "react";
+import { IUser } from "@/auth/common/interfaces";
 
 const CartComponent = () => {
+  const [listCart, setListCart] = useState<IProduct[]>([]);
   const listCartItem = useGetCartItem();
   const showDelete = useSelector(
     (state: RootState) => state.carts.isShowDeleteCart
   );
+  const [userId, setUserId] = useState<string>("");
+  useEffect(() => {
+    const user: IUser[] = JSON.parse(localStorage.getItem("user"));
+    user?.map((user: IUser) => {
+      setUserId(user.id);
+    });
+  });
+
+  useEffect(() => {
+    if (listCartItem.data) {
+      const cart = listCartItem.data?.filter(
+        (item: IProduct) => item.userId === userId
+      );
+      setListCart(cart);
+    }
+  }, [listCartItem.data, userId]);
+
   return (
     <Container>
       <ToastMessageComponent />
       <Cart>
-        {listCartItem.data && listCartItem.data.length === 0 ? (
+        {listCart && listCart.length === 0 ? (
           <CartNotFoundElement />
         ) : (
           <Stack spacing={2} p={1}>
-            {listCartItem.data?.map((item: IMyProduct) => {
-              return <CartInfoElement cartProduct={item} key={item.id} />;
+            {listCart?.map((item: IProduct) => {
+              return (
+                <CartInfoElement
+                  userId={userId}
+                  cartProduct={item}
+                  key={item.id}
+                />
+              );
             })}
           </Stack>
         )}

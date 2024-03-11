@@ -26,7 +26,7 @@ export const usePosProductData = () => {
   });
 };
 
-export const useEditProductData = (id: number) => {
+export const useEditProductData = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation(
     (productValue: IProduct) => editProduct(productValue, id),
@@ -40,14 +40,14 @@ export const useEditProductData = (id: number) => {
 
 export const useDeleteProductData = () => {
   const queryClient = useQueryClient();
-  return useMutation((deleteItemId: number) => deleteProduct(deleteItemId), {
+  return useMutation((deleteItemId: string) => deleteProduct(deleteItemId), {
     onSuccess: () => {
       queryClient.invalidateQueries(["getProductData"]);
     },
   });
 };
 
-export const useGetProductDetailData = (id: number) => {
+export const useGetProductDetailData = (id: string) => {
   return useQuery({
     queryKey: ["productDetailData", id],
     queryFn: () => detailProdut(id),

@@ -26,7 +26,7 @@ export const usePostCartItem = () => {
 
 export const useDeleteCartItem = () => {
   const clientQuery = useQueryClient();
-  return useMutation((cartItemId: number) => deleteCartData(cartItemId), {
+  return useMutation((cartItemId: string) => deleteCartData(cartItemId), {
     onSuccess: () => {
       clientQuery.invalidateQueries(["getCartItems"]);
     },

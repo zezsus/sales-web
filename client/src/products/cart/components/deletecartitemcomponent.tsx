@@ -5,29 +5,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
 import { ModalAction, style } from "../common/assets/deletecartitem";
 import { showDeleteCartItemModal } from "../common/redux/cartSlices";
-import {
-  setColor,
-  setIsMessage,
-  setMessage,
-} from "@/auth/common/redux/userSlice";
-import {
-  useDeleteCartItem,
-  useGetCartItem,
-} from "../common/hooks/cartproducts";
+import { useDeleteCartItem } from "../common/hooks/cartproducts";
 import { Box, Button, Modal, Typography } from "@mui/material";
 
 const DeleteCartItemComponent = () => {
   const showDelete: boolean = useSelector(
     (state: RootState) => state.carts.isShowDeleteCart
   );
-  const deleteItemCartId: number = useSelector(
+  const deleteItemCartId: string = useSelector(
     (state: RootState) => state.carts.deleteItemCartId
   );
 
   const dispatch = useDispatch<AppDispatch>();
 
   const deleteCartItem = useDeleteCartItem();
-  const getCartData = useGetCartItem();
 
   const handleDeleteCartItem = () => {
     deleteCartItem.mutate(deleteItemCartId);

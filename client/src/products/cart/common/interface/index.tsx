@@ -1,4 +1,6 @@
+/** @format */
+
 export interface ICartState {
   isShowDeleteCart: boolean;
-  deleteItemCartId:number
+  deleteItemCartId: string;
 }

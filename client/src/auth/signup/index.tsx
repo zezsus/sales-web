@@ -26,6 +26,7 @@ import { setColor, setIsMessage, setMessage } from "../common/redux/userSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/store";
 import ToastMessageComponent from "@/components/toasmessage.component";
+import { v4 as uuidv4 } from "uuid";
 
 const SignUpPage = () => {
   const [email, setEmail] = useState<string>("");
@@ -66,7 +67,7 @@ const SignUpPage = () => {
     }
 
     const newUser: IUser = {
-      id: Math.floor(Math.random() * 100000),
+      id: uuidv4(),
       username,
       email,
       password,

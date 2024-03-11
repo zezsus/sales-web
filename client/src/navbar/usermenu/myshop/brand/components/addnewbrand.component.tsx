@@ -12,6 +12,7 @@ import {
 } from "@/navbar/usermenu/common/assets/formstyle";
 import { useState } from "react";
 import { useGetListBrand, usePostNewBrand } from "../common/hook/brand.hook";
+import { v4 as uuidv4 } from "uuid";
 
 const AddNewBrandComponent = () => {
   const [brand, setBrand] = useState<string>("");
@@ -22,7 +23,7 @@ const AddNewBrandComponent = () => {
   const getBrand = useGetListBrand();
   const postNewBrand = usePostNewBrand();
   const handleAddBrand = () => {
-    const newBrand = { id: Math.random() * 1000, brand };
+    const newBrand = { id: uuidv4(), brand };
     postNewBrand.mutate(newBrand, {
       onSuccess: () => {
         getBrand.refetch(), handleCloseAddBrand();

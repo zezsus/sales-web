@@ -25,7 +25,7 @@ export const usePostMyProductData = () => {
   });
 };
 
-export const useEditMyProductData = (id: number) => {
+export const useEditMyProductData = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation(
     (productValue: IProduct) => editProduct(productValue, id),
@@ -39,7 +39,7 @@ export const useEditMyProductData = (id: number) => {
 
 export const useDeleteMyProductData = () => {
   const queryClient = useQueryClient();
-  return useMutation((deleteItemId: number) => deleteMyProduct(deleteItemId), {
+  return useMutation((deleteItemId: string) => deleteMyProduct(deleteItemId), {
     onSuccess: () => {
       queryClient.invalidateQueries(["getMyProduct"]);
     },

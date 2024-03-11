@@ -18,7 +18,7 @@ export interface ISearchProductState {
 export type IProduct = InferType<typeof productSchemas>;
 
 export interface ICartItem {
-  id: number;
+  id: string;
   title: string;
   description: string;
   price: number;
@@ -26,5 +26,5 @@ export interface ICartItem {
   brand: string;
   category: string;
   thumbnail: string;
-  userId: number;
+  userId: string;
 }

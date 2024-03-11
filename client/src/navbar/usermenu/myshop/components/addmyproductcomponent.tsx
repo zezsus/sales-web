@@ -27,6 +27,8 @@ import AddNewBrandComponent from "../brand/components/addnewbrand.component";
 import { useGetListBrand } from "../brand/common/hook/brand.hook";
 import AddNewCategoryComponent from "../category/components/addnewcategorycomponent";
 import { useGetListCategory } from "../category/common/hook/category.hook";
+import { IUser } from "@/auth/common/interfaces";
+import { v4 as uuidv4 } from "uuid";
 
 const AddProductComponent = () => {
   const showAddProduct = useSelector(
@@ -38,8 +40,9 @@ const AddProductComponent = () => {
   const showAddCategory = useSelector(
     (state: RootState) => state.myProducts.isShowAddCategory
   );
+  const [userId, setUserId] = useState<string>("");
   const [newMyProduct, setNewMyProduct] = useState<IProduct>({
-    id: 0,
+    id: "",
     thumbnail: "",
     title: "",
     description: "",
@@ -47,7 +50,7 @@ const AddProductComponent = () => {
     price: 0,
     brand: "",
     category: "",
-    userId: 0,
+    userId: "",
   });
   const [listBrandProduct, setListBrandProduct] = useState<Array<string>>([]);
   const [listCategoryProduct, setListCategoryProduct] = useState<Array<string>>(
@@ -66,14 +69,25 @@ const AddProductComponent = () => {
     setListBrandProduct(getListBrand.data);
     setListCategoryProduct(getListCategory.data);
   }, [getListBrand.data, getListCategory.data]);
-  
+
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      const listUser: IUser[] = JSON.parse(localStorage.getItem("user"));
+      listUser?.map((user: IUser) => setUserId(user.id));
+    }
+  }, []);
 
   const handleOnChangeAddValue = (e: any) => {
     setNewMyProduct({ ...newMyProduct, [e.target.name]: e.target.value });
   };
 
   const handleAddProduct = () => {
-    if (!newMyProduct) {
+    if (
+      !newMyProduct.thumbnail ||
+      !newMyProduct.brand ||
+      !newMyProduct.category ||
+      !newMyProduct.title
+    ) {
       dispatch(setIsMessage(true));
       dispatch(setMessage("Please fill in all fields"));
       dispatch(setColor("error"));
@@ -81,7 +95,8 @@ const AddProductComponent = () => {
     } else {
       const newProduct: IProduct = {
         ...newMyProduct,
-        id: Math.random() * 10000,
+        id: uuidv4(),
+        userId: userId,
       };
       dispatch(setIsMessage(true));
       dispatch(setMessage("Add new product success"));
@@ -102,7 +117,7 @@ const AddProductComponent = () => {
 
   const handleCloseAdd = () => {
     setNewMyProduct({
-      id: 0,
+      id: "",
       thumbnail: "",
       title: "",
       description: "",
@@ -110,7 +125,7 @@ const AddProductComponent = () => {
       price: 0,
       brand: "",
       category: "",
-      userId: 0,
+      userId: "",
     });
     dispatch(setShowAddMyProduct(false));
   };

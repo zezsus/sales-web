@@ -4,7 +4,7 @@ import { categorysRouter } from "@/util/api";
 import axios from "axios";
 import { validataSchemas } from "../utils";
 import { ICategory } from "../interfaces/category.interface";
-import { listCategorySchemas } from "../schemas/category.schemas";
+import { categorySchemas, listCategorySchemas } from "../schemas/category.schemas";
 
 export const getListCategory = async () => {
   const res = await axios.get(categorysRouter);
@@ -15,5 +15,6 @@ export const getListCategory = async () => {
 export const postNewCategory = async (newCategory: ICategory) => {
   const res = await axios.post(categorysRouter, newCategory);
   const category: ICategory = await res.data;
-  return validataSchemas(listCategorySchemas, category);
+
+  return validataSchemas(categorySchemas, category);
 };

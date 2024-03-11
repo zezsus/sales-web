@@ -16,12 +16,24 @@ import {
   setIsMessage,
   setMessage,
 } from "@/auth/common/redux/userSlice";
+import { useEffect, useState } from "react";
+import { IUser } from "@/auth/common/interfaces";
+import { v4 as uuidv4 } from "uuid";
 
 const ActionElement = ({ dataProduct }: any) => {
+  const [userId, setUserId] = useState<string>("");
+  const [cartItemId, setCartItemId] = useState<string>(uuidv4());
   const router = useRouter();
   const postCartItem = usePostCartItem();
   const getCartItem = useGetCartItem();
   const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      const listUser: IUser[] = JSON.parse(localStorage.getItem("user"));
+      listUser?.map((user: IUser) => setUserId(user.id));
+    }
+  }, []);
 
   const handleAddToCart = (cartItem: ICartItem) => {
     if (!localStorage.getItem("user")) {
@@ -30,18 +42,13 @@ const ActionElement = ({ dataProduct }: any) => {
     }
 
     const newCartItem: ICartItem = {
-      id: cartItem.id,
-      title: cartItem.title,
-      description: cartItem.description,
-      price: cartItem.price,
-      rating: cartItem.rating,
-      brand: cartItem.brand,
-      category: cartItem.category,
-      thumbnail: cartItem.thumbnail,
-      userId: "",
+      ...cartItem,
+      id: cartItemId,
+      userId: userId,
     };
+
     const checkCartItem = getCartItem.data.filter(
-      (item: any) => item.id === newCartItem.id
+      (item: any) => item.userId === userId && item.title === newCartItem.title
     );
 
     if (checkCartItem.length > 0) {

@@ -2,7 +2,7 @@
 
 export interface IMyProductState {
   editMyProduct: Object;
-  deleteMyProductId: number;
+  deleteMyProductId: string;
   isShowAddMyProduct: boolean;
   isShowEditMyProduct: boolean;
   isShowDeleteMyProduct: boolean;

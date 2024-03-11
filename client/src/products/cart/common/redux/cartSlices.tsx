@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ICartState } from "../interface";
 
 const initialState: ICartState = {
-  deleteItemCartId: 0,
+  deleteItemCartId: "",
   isShowDeleteCart: false,
 };
 

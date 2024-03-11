@@ -1,17 +1,286 @@
 {
   "users": [
     {
-      "id": 45184,
-      "username": "demo",
+      "id": "35340b27-200c-4722-8188-be942e81cc01",
+      "username": "Mạnh Sang",
       "email": "demo@gmail.com",
+      "password": "123",
+      "address": "Hà Nam",
+      "phoneNumber": "0387747339"
+    },
+    {
+      "id": "74b08270-c8e8-4e18-ad58-41925383292d",
+      "username": "demo1",
+      "email": "demo1@gmail.com",
+      "password": "123",
+      "address": "",
+      "phoneNumber": ""
+    },
+    {
+      "id": "8f20f73c-1d34-4ed1-8180-6dfa35b4448a",
+      "username": "demo2",
+      "email": "demo2@gmail.com",
       "password": "123",
       "address": "",
       "phoneNumber": ""
     }
   ],
-  "products": [],
-  "myProducts": [],
-  "carts": [],
-  "brands": [],
-  "categorys": []
+  "products": [
+    {
+      "id": "4560408e-4020-4678-bef0-9bd49b9ca0bb",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+      "title": "iphone",
+      "description": "iphone",
+      "rating": "4.33",
+      "price": "780",
+      "brand": "Apple",
+      "category": "smartphones",
+      "userId": "35340b27-200c-4722-8188-be942e81cc01"
+    },
+    {
+      "id": "6d55abd8-ff7e-4deb-a984-898cd119760d",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg",
+      "title": "iphone X",
+      "description": "iphone X",
+      "rating": "4.44",
+      "price": "897",
+      "brand": "Apple",
+      "category": "smartphones",
+      "userId": "35340b27-200c-4722-8188-be942e81cc01"
+    },
+    {
+      "id": "f5039527-518b-4b6f-8e1b-5832ec52442a",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/6/thumbnail.png",
+      "title": "Macbook Pro",
+      "description": "Macbook Pro",
+      "rating": "4.7",
+      "price": "1920",
+      "brand": "Apple",
+      "category": "laptops",
+      "userId": "35340b27-200c-4722-8188-be942e81cc01"
+    },
+    {
+      "id": "496b311e-33ed-4af6-85fb-b04f33cdf857",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/10/2.jpg",
+      "title": "HP Pavilion 15-DK1056WM",
+      "description": "HP Pavilion 15-DK1056WM Gaming Laptop 10th Gen Core i5, 8GB, 256GB SSD, GTX 1650 4GB, Windows 10",
+      "rating": "3.99",
+      "price": "1099",
+      "brand": "HP Pavilion",
+      "category": "laptops",
+      "userId": "74b08270-c8e8-4e18-ad58-41925383292d"
+    },
+    {
+      "id": "ef707d25-96f4-4c70-b605-5995be63b721",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/11/2.jpg",
+      "title": "perfume Oil",
+      "description": "Mega Discount, Impression of Acqua Di Gio by GiorgioArmani concentrated attar perfume Oil",
+      "rating": "4.72",
+      "price": "20",
+      "brand": "Impression of Acqua Di Gio",
+      "category": "fragrances",
+      "userId": "74b08270-c8e8-4e18-ad58-41925383292d"
+    },
+    {
+      "id": "1f9be575-41cf-47f1-a84b-c3843515a320",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/15/thumbnail.jpg",
+      "title": "Eau De Perfume Spray",
+      "description": "Genuine  Al-Rehab spray perfume from UAE/Saudi Arabia/Yemen High Quality",
+      "rating": "4.7",
+      "price": "30",
+      "brand": "Lord - Al-Rehab",
+      "category": "fragrances",
+      "userId": "74b08270-c8e8-4e18-ad58-41925383292d"
+    }
+  ],
+  "myProducts": [
+    {
+      "id": "4560408e-4020-4678-bef0-9bd49b9ca0bb",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+      "title": "iphone",
+      "description": "iphone",
+      "rating": "4.33",
+      "price": "780",
+      "brand": "Apple",
+      "category": "smartphones",
+      "userId": "35340b27-200c-4722-8188-be942e81cc01"
+    },
+    {
+      "id": "6d55abd8-ff7e-4deb-a984-898cd119760d",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg",
+      "title": "iphone X",
+      "description": "iphone X",
+      "rating": "4.44",
+      "price": "897",
+      "brand": "Apple",
+      "category": "smartphones",
+      "userId": "35340b27-200c-4722-8188-be942e81cc01"
+    },
+    {
+      "id": "f5039527-518b-4b6f-8e1b-5832ec52442a",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/6/thumbnail.png",
+      "title": "Macbook Pro",
+      "description": "Macbook Pro",
+      "rating": "4.7",
+      "price": "1920",
+      "brand": "Apple",
+      "category": "laptops",
+      "userId": "35340b27-200c-4722-8188-be942e81cc01"
+    },
+    {
+      "id": "496b311e-33ed-4af6-85fb-b04f33cdf857",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/10/2.jpg",
+      "title": "HP Pavilion 15-DK1056WM",
+      "description": "HP Pavilion 15-DK1056WM Gaming Laptop 10th Gen Core i5, 8GB, 256GB SSD, GTX 1650 4GB, Windows 10",
+      "rating": "3.99",
+      "price": "1099",
+      "brand": "HP Pavilion",
+      "category": "laptops",
+      "userId": "74b08270-c8e8-4e18-ad58-41925383292d"
+    },
+    {
+      "id": "ef707d25-96f4-4c70-b605-5995be63b721",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/11/2.jpg",
+      "title": "perfume Oil",
+      "description": "Mega Discount, Impression of Acqua Di Gio by GiorgioArmani concentrated attar perfume Oil",
+      "rating": "4.72",
+      "price": "20",
+      "brand": "Impression of Acqua Di Gio",
+      "category": "fragrances",
+      "userId": "74b08270-c8e8-4e18-ad58-41925383292d"
+    },
+    {
+      "id": "1f9be575-41cf-47f1-a84b-c3843515a320",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/15/thumbnail.jpg",
+      "title": "Eau De Perfume Spray",
+      "description": "Genuine  Al-Rehab spray perfume from UAE/Saudi Arabia/Yemen High Quality",
+      "rating": "4.7",
+      "price": "30",
+      "brand": "Lord - Al-Rehab",
+      "category": "fragrances",
+      "userId": "74b08270-c8e8-4e18-ad58-41925383292d"
+    }
+  ],
+  "carts": [
+    {
+      "userId": "35340b27-200c-4722-8188-be942e81cc01",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+      "category": "smartphones",
+      "brand": "Apple",
+      "rating": 4.33,
+      "price": 780,
+      "description": "iphone",
+      "title": "iphone",
+      "id": "15efc7da-1127-4b88-8d4e-cf3fdcfbd93f"
+    },
+    {
+      "userId": "35340b27-200c-4722-8188-be942e81cc01",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg",
+      "category": "smartphones",
+      "brand": "Apple",
+      "rating": 4.44,
+      "price": 897,
+      "description": "iphone X",
+      "title": "iphone X",
+      "id": "153cf1d8-bf39-4558-9d46-580982cb5335"
+    },
+    {
+      "userId": "35340b27-200c-4722-8188-be942e81cc01",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/11/2.jpg",
+      "category": "fragrances",
+      "brand": "Impression of Acqua Di Gio",
+      "rating": 4.72,
+      "price": 20,
+      "description": "Mega Discount, Impression of Acqua Di Gio by GiorgioArmani concentrated attar perfume Oil",
+      "title": "perfume Oil",
+      "id": "1e68c47d-21ee-4f0c-ac0e-d399be9ba58e"
+    },
+    {
+      "userId": "8f20f73c-1d34-4ed1-8180-6dfa35b4448a",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+      "category": "smartphones",
+      "brand": "Apple",
+      "rating": 4.33,
+      "price": 780,
+      "description": "iphone",
+      "title": "iphone",
+      "id": "2d66b8e2-ce33-4300-907a-3b3ed4368f8d"
+    },
+    {
+      "userId": "8f20f73c-1d34-4ed1-8180-6dfa35b4448a",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg",
+      "category": "smartphones",
+      "brand": "Apple",
+      "rating": 4.44,
+      "price": 897,
+      "description": "iphone X",
+      "title": "iphone X",
+      "id": "c104493e-8b75-45e2-b38a-f6272784a13d"
+    },
+    {
+      "userId": "8f20f73c-1d34-4ed1-8180-6dfa35b4448a",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/6/thumbnail.png",
+      "category": "laptops",
+      "brand": "Apple",
+      "rating": 4.7,
+      "price": 1920,
+      "description": "Macbook Pro",
+      "title": "Macbook Pro",
+      "id": "f8163288-f572-4f2c-95e6-6cf8abe55391"
+    },
+    {
+      "userId": "8f20f73c-1d34-4ed1-8180-6dfa35b4448a",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/11/2.jpg",
+      "category": "fragrances",
+      "brand": "Impression of Acqua Di Gio",
+      "rating": 4.72,
+      "price": 20,
+      "description": "Mega Discount, Impression of Acqua Di Gio by GiorgioArmani concentrated attar perfume Oil",
+      "title": "perfume Oil",
+      "id": "5b9d8bf9-3132-4b53-9568-9866b8cfcc94"
+    },
+    {
+      "userId": "74b08270-c8e8-4e18-ad58-41925383292d",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg",
+      "category": "smartphones",
+      "brand": "Apple",
+      "rating": 4.44,
+      "price": 897,
+      "description": "iphone X",
+      "title": "iphone X",
+      "id": "05cf92ec-144b-464d-a9e8-e7016eec1b9a"
+    }
+  ],
+  "brands": [
+    {
+      "id": "b6fd468a-511a-4beb-881d-ade4f906f403",
+      "brand": "Apple"
+    },
+    {
+      "id": "1da00d38-e11a-42b1-9f39-06b74fc05105",
+      "brand": "HP Pavilio"
+    },
+    {
+      "id": "f0f1182f-1b33-4570-922b-8b605362d92d",
+      "brand": "Impression of Acqua Di Gio"
+    },
+    {
+      "id": "3fd874ee-6c66-448a-bf7c-b829a3e9fd1a",
+      "brand": "Lord - Al-Rehab"
+    }
+  ],
+  "categorys": [
+    {
+      "id": "3747606e-3525-40de-b462-3fa6c612c7f4",
+      "category": "smartphones"
+    },
+    {
+      "id": "e1ba76d1-110e-4d46-84ea-ca8634eb4e7b",
+      "category": "laptops"
+    },
+    {
+      "id": "50693a65-b8e2-4c14-8a71-977e3cfb9686",
+      "category": "fragrances"
+    }
+  ]
 }

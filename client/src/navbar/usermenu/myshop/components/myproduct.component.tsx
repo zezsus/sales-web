@@ -15,6 +15,8 @@ import { MyShop } from "../common/assets/myproduct";
 import SpinnerComponent from "@/components/spinnercomponent";
 import { useGetMyProductData } from "../common/hooks/myshop.hook";
 import ToastMessageComponent from "@/components/toasmessage.component";
+import { useEffect, useState } from "react";
+import { IUser } from "@/auth/common/interfaces";
 
 const MyProductComponent = () => {
   const myShopProduct = useGetMyProductData();
@@ -27,17 +29,25 @@ const MyProductComponent = () => {
   const showDeleteProduct = useSelector(
     (state: RootState) => state.myProducts.isShowDeleteMyProduct
   );
+  const [userId, setUserId] = useState<string>("");
+  useEffect(() => {
+    const user: IUser[] = JSON.parse(localStorage.getItem("user"));
+    user?.map((user: IUser) => {
+      setUserId(user.id);
+    });
+  });
 
   if (myShopProduct.isLoading) {
     return <SpinnerComponent />;
   }
+
   return (
     <MyShop>
       <ToastMessageComponent />
       <ButtonAddProductElement />
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         {myShopProduct.data.length > 0 ? (
-          <TableListProductElement />
+          <TableListProductElement userId={userId} />
         ) : (
           <ProductNotFoundElement />
         )}

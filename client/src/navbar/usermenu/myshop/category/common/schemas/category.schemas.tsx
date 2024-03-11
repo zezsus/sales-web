@@ -3,7 +3,7 @@
 import * as Yup from "yup";
 
 export const categorySchemas = Yup.object().shape({
-  id: Yup.number().required(),
+  id: Yup.string().required(),
   category: Yup.string().required(),
 });
 

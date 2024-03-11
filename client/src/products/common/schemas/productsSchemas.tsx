@@ -3,7 +3,7 @@
 import * as Yup from "yup";
 
 export const productSchemas = Yup.object().shape({
-  id: Yup.number().required(),
+  id: Yup.string().required(),
   title: Yup.string().required(),
   description: Yup.string(),
   price: Yup.number().required(),
@@ -11,11 +11,11 @@ export const productSchemas = Yup.object().shape({
   brand: Yup.string().required(),
   category: Yup.string().required(),
   thumbnail: Yup.string().required(),
-  userId: Yup.number().required(),
+  userId: Yup.string().required(),
 });
 
 export const deleteProductSchemas = Yup.object().shape({
-  id: Yup.number().notRequired(),
+  id: Yup.string().notRequired(),
   title: Yup.string().notRequired(),
   description: Yup.string().notRequired(),
   price: Yup.number().notRequired(),
@@ -23,6 +23,7 @@ export const deleteProductSchemas = Yup.object().shape({
   brand: Yup.string().notRequired(),
   category: Yup.string().notRequired(),
   thumbnail: Yup.string().notRequired(),
+  userId: Yup.string().notRequired(),
 });
 
 export const productsSchemas = Yup.array().of(productSchemas);

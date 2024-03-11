@@ -9,8 +9,6 @@ import ContentProductElement from "../elements/contentproduct.element";
 import ActionElement from "../elements/action.element";
 import ButtonBackProductDetailElement from "@/products/productdetail/elements/buttonbackproductdetail.element";
 import ImageProductElement from "@/products/elements/imageproduct.element";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/store";
 import ToastMessageComponent from "@/components/toasmessage.component";
 
 const ProductDetailComponent = ({ idProduct }: any) => {

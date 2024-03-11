@@ -9,6 +9,8 @@ import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetProductData } from "@/products/common/hooks";
+import { useGetListCategory } from "@/navbar/usermenu/myshop/category/common/hook/category.hook";
+import { ICategory } from "@/navbar/usermenu/myshop/category/common/interfaces/category.interface";
 
 const SearchProductElement = () => {
   const selectedType = useSelector(
@@ -17,10 +19,10 @@ const SearchProductElement = () => {
   const selectedPrice = useSelector(
     (state: RootState) => state.search.selectedPrice
   );
-  const product: any = useGetProductData();
+  const product = useGetProductData();
+  const listType = useGetListCategory();
 
   const [typeProduct, setTypeProduct] = useState([]);
-  const [updateTypeProduct, setUpdateTypeProduct] = useState(true);
   const [priceProduct, setPriceProduct] = useState([
     "all",
     "0-100",
@@ -34,17 +36,11 @@ const SearchProductElement = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    if (product.data && updateTypeProduct) {
-      const types: any = [];
-      product?.data?.map((item: any) => {
-        if (!types?.includes(item.category)) {
-          types.push(item.category);
-        }
-      });
-      setTypeProduct(types);
-      setUpdateTypeProduct(false);
+    if (listType.data) {
+      setTypeProduct(listType.data);
     }
-  }, [product, updateTypeProduct]);
+  }, [listType.data]);
+
   const handleOnChangeType = (e: any) => {
     dispatch(setSearchType(e.target.value));
   };
@@ -64,10 +60,10 @@ const SearchProductElement = () => {
           value={selectedType}
           onChange={handleOnChangeType}>
           <MenuItem value={"all"}>all</MenuItem>
-          {typeProduct.map((type: string, index: number) => {
+          {typeProduct.map((type: ICategory) => {
             return (
-              <MenuItem key={index} value={type}>
-                {type}
+              <MenuItem key={type.id} value={type.category}>
+                {type.category}
               </MenuItem>
             );
           })}

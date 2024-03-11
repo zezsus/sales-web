@@ -5,7 +5,7 @@ import { IMyProductState } from "../interfaces/myshop.interface";
 
 const initialState: IMyProductState = {
   editMyProduct: {},
-  deleteMyProductId: 0,
+  deleteMyProductId: "",
   isShowAddMyProduct: false,
   isShowEditMyProduct: false,
   isShowDeleteMyProduct: false,

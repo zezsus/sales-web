@@ -16,6 +16,7 @@ import {
   useGetListCategory,
   usePostNewCategory,
 } from "../common/hook/category.hook";
+import { v4 as uuidv4 } from "uuid";
 
 const AddNewCategoryComponent = () => {
   const [category, setCategory] = useState<string>("");
@@ -26,7 +27,11 @@ const AddNewCategoryComponent = () => {
   const getListCategory = useGetListCategory();
   const postNewCategory = usePostNewCategory();
   const handleAddCategory = () => {
-    const newCategory: ICategory = { id: Math.random() * 1000, category };
+    const newCategory: ICategory = {
+      id: uuidv4(),
+      category: category,
+    };
+
     postNewCategory.mutate(newCategory, {
       onSuccess: () => {
         getListCategory.refetch(), handleCloseAddCategory();

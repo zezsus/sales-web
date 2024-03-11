@@ -51,8 +51,6 @@ const LoginPage = () => {
         (user: any) => user.email === email && user.password === password
       );
 
-      console.log(checkUser);
-
       if (checkUser.length === 0) {
         dispatch(setIsMessage(true));
         dispatch(setMessage("User not found"));

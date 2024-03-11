@@ -22,7 +22,7 @@ export const postCartData = async (cartItem: IProduct) => {
   return validateSchemas(productSchemas, cartItems);
 };
 
-export const deleteCartData = async (cartItemId: number) => {
+export const deleteCartData = async (cartItemId: string) => {
   const res = await axios.delete(`${cartsRouter}/${cartItemId}`);
   const cartItem = await res.data;
   return validateSchemas(deleteCartSchemas, cartItem);

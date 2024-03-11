@@ -7,7 +7,6 @@ import {
   FormControlLabel,
   FormGroup,
   TextField,
-  Typography,
 } from "@mui/material";
 import { FormBody, FormFooter } from "../../common/assets/formstyle";
 import { styleBox } from "../common/assets/profile";
@@ -31,8 +30,6 @@ const ChangePassWordComponent = ({ userData }: any) => {
     password: "",
     newPassword: "",
   });
-  const [error, setError] = useState<string>("");
-  const [success, setSuccess] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -85,13 +82,6 @@ const ChangePassWordComponent = ({ userData }: any) => {
   };
   return (
     <Box width={500} sx={styleBox}>
-      <Typography
-        component={"div"}
-        width={500}
-        mb={2}
-        sx={{ textAlign: "center", color: "green" }}>
-        {success}
-      </Typography>
       <FormBody>
         <TextField
           label='Email'
@@ -151,14 +141,6 @@ const ChangePassWordComponent = ({ userData }: any) => {
           />
         </FormGroup>
       </FormBody>
-      <Typography
-        component={"div"}
-        color={"error"}
-        width={500}
-        mb={2}
-        sx={{ textAlign: "center" }}>
-        {error}
-      </Typography>
       <FormFooter>
         <Button variant='contained' color='warning' onClick={handleSave}>
           Save

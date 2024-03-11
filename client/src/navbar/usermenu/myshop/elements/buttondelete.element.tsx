@@ -12,7 +12,7 @@ import {
 const ButtonDeleteItem = ({ deleteItem }: any) => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleClickDeleteProduct = (productDeleteId: number) => {
+  const handleClickDeleteProduct = (productDeleteId: string) => {
     dispatch(getDeleteProductId(productDeleteId));
     dispatch(setShowDeleteMyProduct(true));
   };
