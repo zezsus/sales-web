@@ -5,11 +5,9 @@ import { styleBox } from "../common/assets/profile";
 import { FormBody, FormFooter } from "../../common/assets/formstyle";
 import { useState } from "react";
 import { IUser } from "@/auth/common/interfaces";
-import { useUpdateUser } from "../common/hook/profile.hook";
 import { setUpdateUser } from "../common/redux/profileSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/store";
-import { useGetUserData } from "@/auth/common/hook";
 import {
   setColor,
   setIsMessage,
@@ -21,21 +19,18 @@ const UpdateUserElement = ({ userData }: any) => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const updateUserMutation = useUpdateUser(userInfo.id);
-  const getUserData = useGetUserData();
-
   const onChangeUserInfo = (e: any) => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
   };
   const handleSave = () => {
-    const updateUser = {
-      ...userInfo,
-    };
-    updateUserMutation.mutate(updateUser, {
-      onSuccess: () => {
-        getUserData.refetch();
+    const updateUser = [
+      {
+        ...userInfo,
       },
-    });
+    ];
+
+    localStorage.setItem("user", JSON.stringify(updateUser));
+
     dispatch(setIsMessage(true));
     dispatch(setMessage("Update user success."));
     dispatch(setColor("success"));

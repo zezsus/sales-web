@@ -2,8 +2,8 @@
 "use client";
 
 import { AppDispatch, RootState } from "@/app/store";
-import { useGetUserData } from "@/auth/common/hook";
 import { IUser } from "@/auth/common/interfaces";
+import { getListUser } from "@/auth/common/mockData/moockListUser";
 import { setIsLogin } from "@/auth/common/redux/userSlice";
 import {
   Box,
@@ -24,13 +24,13 @@ const UserMenuElement = () => {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
-  const userData = useGetUserData();
   const isLocalStorage = localStorage.getItem("user");
   const storedUser: string | null = localStorage.getItem("user");
   const checkLoginUser: Array<IUser> = storedUser ? JSON.parse(storedUser) : [];
-  const user: Array<IUser> = userData.data?.filter((user: IUser) => {
-    return checkLoginUser?.find((item: IUser) => item.id === user.id);
-  });
+  const listUser = getListUser();
+  // const user: Array<IUser> = listUser?.filter((user: IUser) => {
+  //   return checkLoginUser?.find((item: IUser) => item.id === user.id);
+  // });
 
   const handleClickUserName = (e: any) => {
     setUserMenu(e.currentTarget);
@@ -54,7 +54,8 @@ const UserMenuElement = () => {
             component={"span"}
             sx={{ cursor: "pointer", width: "max-content" }}
             onClick={handleClickUserName}>
-            {user?.length > 0 && user?.map((user: IUser) => user.username)}
+            {checkLoginUser?.length > 0 &&
+              checkLoginUser?.map((user: IUser) => user.username)}
           </Typography>
         </Tooltip>
       ) : (

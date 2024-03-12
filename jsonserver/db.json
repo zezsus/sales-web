@@ -23,6 +23,14 @@
       "password": "123",
       "address": "",
       "phoneNumber": ""
+    },
+    {
+      "id": "82882db4-b4e3-40cb-a6e7-47f43483ae18",
+      "username": "Kasey45",
+      "email": "Katelin.Heaney@yahoo.com",
+      "password": "QVMUuStzGfQWrJx",
+      "address": "3024 McKenzie Mount",
+      "phoneNumber": "239.430.7819"
     }
   ],
   "products": [

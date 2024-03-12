@@ -3,16 +3,25 @@
 import { faker } from "@faker-js/faker";
 import { IUser } from "../interfaces";
 
-let mockListUser: IUser[] = [];
+const mockListUser: IUser[] = [];
 
-export const createListUserFacker = () => {
+export const createListUserFaker = (): IUser => {
   return {
-    id: faker.random.alphaNumeric(10),
+    id: faker.string.uuid(),
     username: faker.internet.userName(),
     email: faker.internet.email(),
     password: faker.internet.password(),
     address: faker.address.streetAddress(),
-    phoneNumber: faker.phone.number,
+    phoneNumber: faker.phone.number(),
   };
 };
-console.log(createListUserFacker);
+
+export const createNewUser = () => {
+  const newUser: any = createListUserFaker();
+  mockListUser.push(newUser);
+  return [...mockListUser];
+};
+
+export const getListUser = () => {
+  return mockListUser;
+};

@@ -14,9 +14,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import SpinnerComponent from "@/components/spinnercomponent";
 import { useSelector } from "react-redux";
-import { useGetProductData } from "@/products/common/hooks";
 import { RootState } from "@/app/store";
 import { IProduct } from "@/products/common/interface";
+import { getListProduct } from "@/products/common/mockdata/products";
 
 const ListProductElement = () => {
   const [products, setProducts] = useState([]);
@@ -30,13 +30,14 @@ const ListProductElement = () => {
     (state: RootState) => state.search.selectedPrice
   );
 
-  const getData = useGetProductData();
+  const getData: any = getListProduct();
+  console.log(getData);
 
   useEffect(() => {
-    if (!getData.data) return;
-    const filteredProducts = getData.data.filter((product: any) => {
+    if (!getData) return;
+    const filteredProducts = getData.filter((product: any) => {
       const isTypeMatch =
-        selectedType === "all" || product.category.includes(selectedType);
+        selectedType === "all" || product.category?.includes(selectedType);
 
       let isPriceMatch = true;
 
@@ -62,13 +63,15 @@ const ListProductElement = () => {
       }
 
       return (
-        product.title.toLowerCase().includes(searchNameProduct.toLowerCase()) &&
+        product.title
+          ?.toLowerCase()
+          .includes(searchNameProduct.toLowerCase()) &&
         isTypeMatch &&
         isPriceMatch
       );
     });
     setProducts(filteredProducts);
-  }, [searchNameProduct, selectedType, selectedPrice, getData.data]);
+  }, []);
 
   if (getData.isLoading) {
     return <SpinnerComponent />;

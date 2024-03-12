@@ -18,7 +18,6 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useGetUserData } from "../common/hook";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/store";
 import {
@@ -28,6 +27,8 @@ import {
   setMessage,
 } from "../common/redux/userSlice";
 import ToastMessageComponent from "@/components/toasmessage.component";
+import { getListUser } from "../common/mockData/moockListUser";
+import { IUser } from "../common/interfaces";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -36,7 +37,8 @@ const LoginPage = () => {
 
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-  const getDataUser = useGetUserData();
+
+  const listUser = getListUser();
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -46,8 +48,8 @@ const LoginPage = () => {
       return;
     }
 
-    if (getDataUser.data) {
-      const checkUser = getDataUser.data?.filter(
+    if (listUser.length > 0) {
+      const checkUser = listUser?.filter(
         (user: any) => user.email === email && user.password === password
       );
 
@@ -69,6 +71,16 @@ const LoginPage = () => {
   return (
     <Div>
       <ToastMessageComponent />
+      <div>
+        {listUser?.map((user: IUser) => {
+          return (
+            <div key={user.id}>
+              <p>{user.email}</p>
+              <p>{user.password}</p>
+            </div>
+          );
+        })}
+      </div>
       <AuthForm>
         <AuthHeader variant='h5'>Login In</AuthHeader>
         <AuthBody>
